@@ -1,0 +1,17 @@
+- type: tile
+  id: StalkerMapBaslatDuty
+  name: StalkerBasalt
+  suffix: Duty
+  sprite: /Textures/_Stalker/Tiles/cursed-basalt.png
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  baseTurf: FloorPlanetDirt
+  isSubfloor: false
+  heatCapacity: 10000
+  weather: false
+  indestructible: true
+  footstepSounds:
+    collection: STFootstepDirt
