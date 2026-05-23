@@ -41,6 +41,13 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
     private MobState _lastMobState = MobState.Alive;
     private EntityUid? _currentStream;
 
+    // Крит. состояние (MobCritical) — crossfade
+    private EntityUid? _critStreamNext;        // следующий трек (уже играет, fade-in)
+    private TimeSpan _critCurrentEndTime;      // когда заканчивается ТЕКУЩИЙ (старый) трек
+    private TimeSpan _critNextEndTime;         // когда заканчивается СЛЕДУЮЩИЙ трек
+    private bool _critCrossfadeStarted;        // начали ли crossfade
+    private bool _critPlaying;                 // играет ли крит-музыка сейчас
+
     private TimeSpan _nextTrackTime = TimeSpan.Zero;
     private bool _trackPlaying;
     private bool _waitingForStateTransition;
@@ -96,6 +103,9 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         _nextTrackTime = TimeSpan.Zero;
         _currentHealthState = HealthMusicState.VeryGood;
         _lastMobState = MobState.Alive;
+        _critPlaying = false;
+        _critCrossfadeStarted = false;
+        _critStreamNext = null;
     }
 
     public override void Update(float frameTime)
@@ -148,12 +158,30 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
                 _waitingForStateTransition = false;
                 _trackPlaying = false;
                 _nextTrackTime = TimeSpan.Zero;
+                _critPlaying = false;
+                _critCrossfadeStarted = false;
+                _critStreamNext = null;
             }
             _lastMobState = mobState;
             _wasInCombat = false;
             _wasInCombatLow = false;
             UpdateMobCritMusic();
             return;
+        }
+
+        // Вышли из крит. состояния
+        if (_lastMobState == MobState.Critical)
+        {
+            StopCurrent(immediate: false);
+            if (_critStreamNext != null)
+            {
+                _audio.Stop(_critStreamNext);
+                _critStreamNext = null;
+            }
+            _critPlaying = false;
+            _critCrossfadeStarted = false;
+            _trackPlaying = false;
+            _nextTrackTime = TimeSpan.Zero;
         }
 
         _lastMobState = mobState;
@@ -251,32 +279,68 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
 
     private void UpdateMobCritMusic()
     {
-        if (_currentType == DutyMusicType.Calm && _currentStream != null)
+        var proto = GetProto();
+        if (proto == null || proto.TracksMobCritical.Count == 0) return;
+
+        var crossfade = proto.MobCritCrossfadeDuration;
+        var volume = VolumeFromLinear(_volume) + proto.MobCritVolumeBoost;
+
+        // Первый запуск
+        if (!_critPlaying)
         {
-            if (!EntityManager.EntityExists(_currentStream.Value))
+            var entry = _random.Pick(proto.TracksMobCritical);
+            _currentStream = _audio.PlayGlobal(entry.Sound, Filter.Local(), false,
+                AudioParams.Default.WithVolume(volume))?.Entity;
+
+            if (_currentStream != null)
             {
-                _currentStream = null;
-                _currentType = DutyMusicType.None;
-                _trackPlaying = false;
-                ScheduleNextTrack();
+                _currentType = DutyMusicType.Calm;
+                _critPlaying = true;
+                _critCrossfadeStarted = false;
+                _critStreamNext = null;
+                _critCurrentEndTime = _timing.CurTime + TimeSpan.FromSeconds(entry.Duration);
+                _critNextEndTime = TimeSpan.Zero;
+                _contentAudio.FadeIn(_currentStream, duration: crossfade);
             }
             return;
         }
 
-        if (_timing.CurTime < _nextTrackTime || _trackPlaying) return;
+        var timeLeft = (_critCurrentEndTime - _timing.CurTime).TotalSeconds;
 
-        var proto = GetProto();
-        if (proto == null || proto.TracksMobCritical.Count == 0) return;
-
-        var track = _random.Pick(proto.TracksMobCritical);
-        _currentStream = _audio.PlayGlobal(track, Filter.Local(), false,
-            AudioParams.Default.WithVolume(VolumeFromLinear(_volume)))?.Entity;
-
-        if (_currentStream != null)
+        // Начинаем crossfade за crossfade секунд до конца текущего трека
+        if (!_critCrossfadeStarted && timeLeft <= crossfade)
         {
-            _currentType = DutyMusicType.Calm;
-            _trackPlaying = true;
-            _contentAudio.FadeIn(_currentStream, duration: proto.CalmFadeInDuration);
+            _critCrossfadeStarted = true;
+
+            // Fade-out текущего
+            if (_currentStream != null)
+                _contentAudio.FadeOut(_currentStream, duration: (float)Math.Max(timeLeft, 0.5));
+
+            // Запускаем следующий с fade-in
+            var next = _random.Pick(proto.TracksMobCritical);
+            _critStreamNext = _audio.PlayGlobal(next.Sound, Filter.Local(), false,
+                AudioParams.Default.WithVolume(volume))?.Entity;
+
+            if (_critStreamNext != null)
+            {
+                _contentAudio.FadeIn(_critStreamNext, duration: crossfade);
+                _critNextEndTime = _timing.CurTime + TimeSpan.FromSeconds(next.Duration);
+            }
+        }
+
+        // Когда старый трек закончился — переключаемся на следующий
+        if (_critCrossfadeStarted && _timing.CurTime >= _critCurrentEndTime)
+        {
+            if (_critStreamNext != null)
+            {
+                // Старый останавливаем (на случай если ещё не умер)
+                if (_currentStream != null)
+                    _audio.Stop(_currentStream);
+                _currentStream = _critStreamNext;
+                _critStreamNext = null;
+                _critCurrentEndTime = _critNextEndTime;
+                _critCrossfadeStarted = false;
+            }
         }
     }
 
@@ -419,7 +483,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         {
             proto.TracksVeryGood, proto.TracksGood, proto.TracksMedium,
             proto.TracksBelowMedium, proto.TracksAwful, proto.TracksCritical,
-            proto.TracksMobCritical, proto.CombatTracks, proto.CombatLowTracks
+            proto.CombatTracks, proto.CombatLowTracks
         };
 
         foreach (var list in allLists)
@@ -431,6 +495,18 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
                 catch (Exception e)
                 {
                     Logger.Warning($"[DynamicAmbientMusic] Не удалось предзагрузить '{path.Path}': {e.Message}");
+                }
+            }
+        }
+
+        foreach (var critTrack in proto.TracksMobCritical)
+        {
+            if (critTrack.Sound is SoundPathSpecifier critPath)
+            {
+                try { _resourceCache.GetResource<AudioResource>(critPath.Path); }
+                catch (Exception e)
+                {
+                    Logger.Warning($"[DynamicAmbientMusic] Не удалось предзагрузить крит-трек '{critPath.Path}': {e.Message}");
                 }
             }
         }

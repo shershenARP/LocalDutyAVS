@@ -4,8 +4,22 @@
 
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.Duty.Audio;
+
+/// <summary>Трек для крит. состояния с явно заданной длительностью.</summary>
+[DataDefinition]
+public sealed partial class DutyCritTrack
+{
+    /// <summary>Путь к аудиофайлу.</summary>
+    [DataField(required: true)]
+    public SoundSpecifier Sound = default!;
+
+    /// <summary>Длительность трека в секундах.</summary>
+    [DataField(required: true)]
+    public float Duration;
+}
 
 [Prototype("dynamicAmbientMusic")]
 public sealed class DynamicAmbientMusicPrototype : IPrototype
@@ -37,9 +51,17 @@ public sealed class DynamicAmbientMusicPrototype : IPrototype
     [DataField(required: true)]
     public List<SoundSpecifier> TracksCritical = new();
 
-    /// <summary>MobState.Critical — персонаж лежит без сознания.</summary>
+    /// <summary>MobState.Critical — персонаж лежит без сознания. Треки с длительностью для плавных переходов.</summary>
     [DataField(required: true)]
-    public List<SoundSpecifier> TracksMobCritical = new();
+    public List<DutyCritTrack> TracksMobCritical = new();
+
+    /// <summary>Усиление громкости для TracksMobCritical (в dB, положительное = громче).</summary>
+    [DataField]
+    public float MobCritVolumeBoost = 6f;
+
+    /// <summary>Длительность fade-out и fade-in при переходе между крит. треками (сек).</summary>
+    [DataField]
+    public float MobCritCrossfadeDuration = 10f;
 
     /// <summary>Боевая музыка — играет в петле при боевом режиме.</summary>
     [DataField(required: true)]
