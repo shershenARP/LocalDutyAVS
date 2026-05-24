@@ -893,3 +893,16 @@ duty-health-phrases-drask-5-say-7 = ...
 duty-health-phrases-drask-5-say-8 = ...вм...
 duty-health-phrases-drask-5-say-9 = ...
 duty-health-phrases-drask-5-say-10 = ...мм...
+
+# ── UI вкладки персонализации ─────────────────────────────────────────────────
+duty-health-phrases-tab-name = Реплики боли
+duty-health-phrases-tab-title = Реплики боли
+duty-health-phrases-tab-hint = Фразы, которые ваш персонаж будет произносить при ранениях. Оставьте пустым — будут использоваться стандартные фразы. Каждая фраза с новой строки.
+duty-health-phrases-placeholder = Каждая фраза с новой строки...
+duty-health-phrases-level-50 = 40–50% здоровья
+duty-health-phrases-level-40 = 35–40% здоровья
+duty-health-phrases-level-35 = 25–35% здоровья
+duty-health-phrases-level-25 = 15–25% здоровья
+duty-health-phrases-level-15 = 10–15% здоровья
+duty-health-phrases-level-10 = 5–10% здоровья
+duty-health-phrases-level-5 = 0–5% здоровья

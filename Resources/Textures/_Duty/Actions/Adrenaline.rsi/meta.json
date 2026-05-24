@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "LocalDuty",
+  "states": [
+    {
+      "name": "adrenaline.png",
+      "directions": 1
+    }
+  ]
+}
