@@ -23,7 +23,6 @@ public sealed class DutyCCVars
 
     /// <summary>
     /// Секретный API-ключ OpenRouter для NPC-бармена.
-    /// Значение задаётся только в серверной конфигурации, в репозитории должно оставаться пустым.
     /// </summary>
     public static readonly CVarDef<string> BarmanOpenRouterApiKey =
         CVarDef.Create("duty.barman_openrouter_api_key", string.Empty, CVar.SERVERONLY);
@@ -35,14 +34,46 @@ public sealed class DutyCCVars
         CVarDef.Create("duty.barman_memory_enabled", true, CVar.SERVERONLY);
 
     /// <summary>
-    /// Путь до sqlite-файла памяти Билли. Относительный путь считается от user-data директории сервера.
+    /// Путь до sqlite-файла памяти Билли.
     /// </summary>
     public static readonly CVarDef<string> BarmanMemoryDbPath =
         CVarDef.Create("duty.barman_memory_db_path", "Data/barman_memory.db", CVar.SERVERONLY);
 
     /// <summary>
-    /// Разрешены ли голоса +1/-1 для усиления или ослабления прошлых ответов Билли.
+    /// Разрешены ли голоса +1/-1 для ответов Билли.
     /// </summary>
     public static readonly CVarDef<bool> BarmanFeedbackEnabled =
         CVarDef.Create("duty.barman_feedback_enabled", true, CVar.SERVERONLY);
+
+    // ── Health Phrases ────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Включена ли система реплик боли.
+    /// </summary>
+    public static readonly CVarDef<bool> HealthPhrasesEnabled =
+        CVarDef.Create("duty.health_phrases_enabled", true, CVar.ARCHIVE | CVar.REPLICATED);
+
+    /// <summary>
+    /// Минимальный интервал между popup-сообщениями (секунды).
+    /// </summary>
+    public static readonly CVarDef<float> HealthPhrasesPopupMin =
+        CVarDef.Create("duty.health_phrases_popup_min", 40f, CVar.ARCHIVE | CVar.REPLICATED);
+
+    /// <summary>
+    /// Максимальный интервал между popup-сообщениями (секунды).
+    /// </summary>
+    public static readonly CVarDef<float> HealthPhrasesPopupMax =
+        CVarDef.Create("duty.health_phrases_popup_max", 180f, CVar.ARCHIVE | CVar.REPLICATED);
+
+    /// <summary>
+    /// Минимальный интервал между whisper-сообщениями (секунды).
+    /// </summary>
+    public static readonly CVarDef<float> HealthPhrasesWhisperMin =
+        CVarDef.Create("duty.health_phrases_whisper_min", 60f, CVar.ARCHIVE | CVar.REPLICATED);
+
+    /// <summary>
+    /// Максимальный интервал между whisper-сообщениями (секунды).
+    /// </summary>
+    public static readonly CVarDef<float> HealthPhrasesWhisperMax =
+        CVarDef.Create("duty.health_phrases_whisper_max", 300f, CVar.ARCHIVE | CVar.REPLICATED);
 }

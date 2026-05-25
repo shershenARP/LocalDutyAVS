@@ -250,6 +250,7 @@ namespace Content.Shared.Preferences
                 )
                 // ADT end
         {
+            HealthPhrases = other.HealthPhrases.Clone();
         }
 
         /// <summary>
@@ -602,6 +603,7 @@ namespace Content.Shared.Preferences
             if (HeadshotUrl != other.HeadshotUrl) return false;
             if (!Bark.MemberwiseEquals(other.Bark)) return false;
             // ADT-tweak-end
+            if (!HealthPhrases.MemberwiseEquals(other.HealthPhrases)) return false;
             return Appearance.MemberwiseEquals(other.Appearance);
         }
 
@@ -918,6 +920,18 @@ namespace Content.Shared.Preferences
             hashCode.Add(HeadshotUrl);
             //ADT-tweak-end
             hashCode.Add(FlavorText);
+            hashCode.Add(HealthPhrases.Popup70);
+            hashCode.Add(HealthPhrases.Whisper70);
+            hashCode.Add(HealthPhrases.Popup55);
+            hashCode.Add(HealthPhrases.Whisper55);
+            hashCode.Add(HealthPhrases.Popup40);
+            hashCode.Add(HealthPhrases.Whisper40);
+            hashCode.Add(HealthPhrases.Popup25);
+            hashCode.Add(HealthPhrases.Whisper25);
+            hashCode.Add(HealthPhrases.Popup10);
+            hashCode.Add(HealthPhrases.Whisper10);
+            hashCode.Add(HealthPhrases.Popup5);
+            hashCode.Add(HealthPhrases.Whisper5);
             hashCode.Add(Species);
             hashCode.Add(Age);
             hashCode.Add((int)Sex);

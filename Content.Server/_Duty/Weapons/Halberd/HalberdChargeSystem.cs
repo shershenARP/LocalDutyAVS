@@ -74,7 +74,7 @@ public sealed class HalberdChargeSystem : EntitySystem
             if (!comp.IsCharging || comp.ChargeUser == null)
                 continue;
 
-            UpdateCharge(uid, comp);
+            UpdateCharge(uid, comp, frameTime);
         }
     }
 
@@ -183,16 +183,19 @@ public sealed class HalberdChargeSystem : EntitySystem
         var resist = EnsureComp<HalberdChargeResistComponent>(user);
         resist.Resistance = comp.ChargeResistance;
 
+        // Коллизии — только lookup; физику отключаем, иначе SetWorldPosition даёт FATL AddPair.
+        DisableChargePhysics(user, resist);
+
         args.Handled = true;
     }
 
     // ── Тик рывка ─────────────────────────────────────────────
 
-    private void UpdateCharge(EntityUid halberdUid, HalberdChargeComponent comp)
+    private void UpdateCharge(EntityUid halberdUid, HalberdChargeComponent comp, float frameTime)
     {
         var user = comp.ChargeUser!.Value;
 
-        if (!Exists(user) || !TryComp<PhysicsComponent>(user, out var physics))
+        if (!Exists(user))
         {
             StopCharge(halberdUid, comp, ChargeEndReason.Miss);
             return;
@@ -211,7 +214,13 @@ public sealed class HalberdChargeSystem : EntitySystem
         else
             speedMult = 1f;
 
-        _physics.SetLinearVelocity(user, comp.ChargeDirection * comp.ChargeSpeed * speedMult, body: physics);
+        // Движение через transform: ChargeSpeed в м/с, коллизии — lookup ниже.
+        var step = comp.ChargeDirection * comp.ChargeSpeed * speedMult * frameTime;
+        var newPos = userPos + step;
+        _transform.SetWorldPosition(user, newPos);
+
+        userPos = newPos;
+        traveled = Vector2.Distance(userPos, comp.ChargeStartPos);
 
         // Дистанция исчерпана
         if (traveled >= comp.ChargeDistance)
@@ -277,9 +286,7 @@ public sealed class HalberdChargeSystem : EntitySystem
         comp.IsCharging = false;
         comp.ChargeUser = null;
 
-        // Останавливаем физику
-        if (TryComp<PhysicsComponent>(user, out var physics))
-            _physics.SetLinearVelocity(user, Vector2.Zero, body: physics);
+        RestoreChargePhysics(user);
 
         // Убираем резист
         RemCompDeferred<HalberdChargeResistComponent>(user);
@@ -331,6 +338,25 @@ public sealed class HalberdChargeSystem : EntitySystem
     }
 
     // ── Хелперы ───────────────────────────────────────────────
+
+    private void DisableChargePhysics(EntityUid user, HalberdChargeResistComponent resist)
+    {
+        if (!TryComp<PhysicsComponent>(user, out var physics))
+            return;
+
+        resist.HadCanCollide = true;
+        resist.CanCollideBefore = physics.CanCollide;
+        _physics.SetCanCollide(user, false, force: true, body: physics);
+    }
+
+    private void RestoreChargePhysics(EntityUid user)
+    {
+        if (!TryComp<HalberdChargeResistComponent>(user, out var resist) || !resist.HadCanCollide)
+            return;
+
+        if (TryComp<PhysicsComponent>(user, out var physics))
+            _physics.SetCanCollide(user, resist.CanCollideBefore, force: true, body: physics);
+    }
 
     private bool IsHalberdWielded(EntityUid user, EntityUid halberd)
     {

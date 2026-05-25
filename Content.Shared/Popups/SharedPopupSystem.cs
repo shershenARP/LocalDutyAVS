@@ -228,6 +228,11 @@ namespace Content.Shared.Popups
         ///     but is not life-threatening.
         /// </summary>
         Large,
-        LargeCaution
+        LargeCaution,
+
+        /// <summary>
+        /// Duty: реплики боли (шрифт Underdog, цвет #B22222).
+        /// </summary>
+        DutyHealthPain,
     }
 }

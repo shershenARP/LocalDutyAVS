@@ -42,6 +42,12 @@ public sealed partial class Generic : ILanguageType
     [DataField("replaceEntireMessage")]
     public bool ReplaceEntireMessage { get; private set; } = false;
 
+    /// <summary>
+    /// Не обфусцировать текст (только шрифт/цвет языка). Для «грубой» речи Duty.
+    /// </summary>
+    [DataField]
+    public bool PassThroughObfuscation { get; private set; }
+
     /// <inheritdoc/>
     [DataField("verbs")]
     public Dictionary<string, List<string>> SuffixSpeechVerbs { get; set; } = new()
@@ -75,7 +81,9 @@ public sealed partial class Generic : ILanguageType
         message = chat.TransformSpeech(uid, message);
 
         string coloredMessage = lang.AccentuateMessage(uid, Language, message);
-        string coloredLanguageMessage = lang.ObfuscateMessage(uid, message, Replacement, ObfuscateSyllables, ReplaceEntireMessage);
+        string coloredLanguageMessage = PassThroughObfuscation
+            ? coloredMessage
+            : lang.ObfuscateMessage(uid, message, Replacement, ObfuscateSyllables, ReplaceEntireMessage);
         resultMessage = FormattedMessage.EscapeText(coloredMessage);
         if (string.IsNullOrEmpty(coloredMessage))
             return;
@@ -140,7 +148,9 @@ public sealed partial class Generic : ILanguageType
         message = chat.TransformSpeech(uid, message);
 
         var accentMessage = lang.AccentuateMessage(uid, Language, message);
-        var languageMessage = lang.ObfuscateMessage(uid, message, Replacement, ObfuscateSyllables, ReplaceEntireMessage);
+        var languageMessage = PassThroughObfuscation
+            ? accentMessage
+            : lang.ObfuscateMessage(uid, message, Replacement, ObfuscateSyllables, ReplaceEntireMessage);
         var obfuscatedMessage = chat.ObfuscateMessageReadability(accentMessage, 0.2f);
         var obfuscatedLanguageMessage = chat.ObfuscateMessageReadability(languageMessage, 0.2f);
         resultMessage = FormattedMessage.EscapeText(accentMessage);
