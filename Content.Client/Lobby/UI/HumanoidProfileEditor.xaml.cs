@@ -54,6 +54,7 @@ using Content.Client.ADT.UserInterface.Controls;
 using Content.Client.ADT.CharecterFlavor;
 using Content.Shared.ADT.CharecterFlavor;
 using Content.Client._Duty.HealthPhrases; // Duty HealthPhrases
+using Content.Shared._Duty.HealthPhrases;
 
 namespace Content.Client.Lobby.UI
 {
@@ -611,7 +612,7 @@ namespace Content.Client.Lobby.UI
 
         // Duty HealthPhrases start
         /// <summary>
-        /// Добавляет вкладку "Реплики боли" после вкладки Описание.
+        /// Добавляет вкладку «Реплики боли» (последняя в TabContainer).
         /// </summary>
         public void RefreshHealthPhrasesTab()
         {
@@ -624,7 +625,7 @@ namespace Content.Client.Lobby.UI
             _healthPhrasesTab.OnPhrasesChanged += OnHealthPhrasesChanged;
         }
 
-        private void OnHealthPhrasesChanged(HealthPhrasesTabData data)
+        private void OnHealthPhrasesChanged(HealthPhrasesData data)
         {
             if (Profile is null)
                 return;

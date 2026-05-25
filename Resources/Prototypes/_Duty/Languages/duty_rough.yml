@@ -1,0 +1,12 @@
+# Грубая речь: тот же текст, шрифт Underdog (черта «грубый»).
+- type: language
+  id: DutyRough
+  priority: 10
+  showUnderstood: false
+  parent: BaseVocalLanguage
+  speech: !type:Generic
+    passThroughObfuscation: true
+    font: Underdog
+    fontSize: 14
+    replacement:
+    - "."

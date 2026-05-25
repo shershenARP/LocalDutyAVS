@@ -1,0 +1,10 @@
+- type: trait
+  id: DutyRough
+  name: trait-duty-rough-name
+  description: trait-duty-rough-desc
+  category: SpeechTraits
+  cost: 0
+  effects:
+    - !type:AddCompsEffect
+      components:
+        - type: DutyRoughSpeech

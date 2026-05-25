@@ -1,50 +1,99 @@
+using System.Linq;
+using Content.Server.Administration;
 using Content.Server.Chat.Systems;
+using Content.Shared.Administration;
+using Content.Shared.CCVar;
 using Content.Shared.Chat;
 using Content.Shared.FixedPoint;
 using Content.Shared._Duty.HealthPhrases;
 using Content.Shared.Damage.Components;
+using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Popups;
-using Robust.Shared.Player;
+using Robust.Server.Player;
+using Robust.Shared.Configuration;
+using Robust.Shared.Console;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Duty.HealthPhrases;
 
-/// <summary>
-/// Система атмосферы боли.
-/// Раз в Update проверяет HP гуманоидов с компонентом HealthPhrasesComponent
-/// и выдаёт реплики/попапы в зависимости от уровня здоровья.
-/// </summary>
 public sealed class HealthPhrasesSystem : EntitySystem
 {
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly IConsoleHost _console = default!;
 
-    // Цвет popup-сообщений (#DC143C — красный)
-    private static readonly Color PopupColor = Color.FromHex("#DC143C");
+    private bool _enabled;
+    private float _popupMin;
+    private float _popupMax;
+    private float _whisperMin;
+    private float _whisperMax;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<PlayerSpawnCompleteEvent>(OnPlayerSpawn);
+
+        _cfg.OnValueChanged(DutyCCVars.HealthPhrasesEnabled,   v => _enabled    = v, true);
+        _cfg.OnValueChanged(DutyCCVars.HealthPhrasesPopupMin,  v => _popupMin   = v, true);
+        _cfg.OnValueChanged(DutyCCVars.HealthPhrasesPopupMax,  v => _popupMax   = v, true);
+        _cfg.OnValueChanged(DutyCCVars.HealthPhrasesWhisperMin, v => _whisperMin = v, true);
+        _cfg.OnValueChanged(DutyCCVars.HealthPhrasesWhisperMax, v => _whisperMax = v, true);
+
+        _console.RegisterCommand("duty_hp_test",
+            "Принудительно вызвать реплику боли у игрока. Использование: duty_hp_test <username> [popup|whisper]",
+            "duty_hp_test <username> [popup|whisper]",
+            TestCommand,
+            TestCommandCompletion);
+    }
+
+    private void OnPlayerSpawn(PlayerSpawnCompleteEvent ev)
+    {
+        if (!HasComp<HumanoidAppearanceComponent>(ev.Mob))
+            return;
+
+        var comp = EnsureComp<HealthPhrasesComponent>(ev.Mob);
+        var p = ev.Profile.HealthPhrases;
+
+        comp.CustomPopup70 = new List<string>(p.Popup70);
+        comp.CustomWhisper70 = new List<string>(p.Whisper70);
+        comp.CustomPopup55 = new List<string>(p.Popup55);
+        comp.CustomWhisper55 = new List<string>(p.Whisper55);
+        comp.CustomPopup40 = new List<string>(p.Popup40);
+        comp.CustomWhisper40 = new List<string>(p.Whisper40);
+        comp.CustomPopup25 = new List<string>(p.Popup25);
+        comp.CustomWhisper25 = new List<string>(p.Whisper25);
+        comp.CustomPopup10 = new List<string>(p.Popup10);
+        comp.CustomWhisper10 = new List<string>(p.Whisper10);
+        comp.CustomPopup5 = new List<string>(p.Popup5);
+        comp.CustomWhisper5 = new List<string>(p.Whisper5);
+    }
 
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        if (!_enabled)
+            return;
 
         var now = _timing.CurTime;
         var query = EntityQueryEnumerator<HealthPhrasesComponent, DamageableComponent, HumanoidAppearanceComponent, MobStateComponent>();
 
         while (query.MoveNext(out var uid, out var phrases, out var damageable, out var humanoid, out var mobState))
         {
-            // Только живые (не в крите, не мёртвые)
             if (mobState.CurrentState != MobState.Alive)
                 continue;
 
             if (!TryComp<MobThresholdsComponent>(uid, out var thresholds))
                 continue;
 
-            // Получаем порог крита
             FixedPoint2 critThreshold = 0;
             foreach (var (threshold, state) in thresholds.Thresholds)
             {
@@ -58,65 +107,54 @@ public sealed class HealthPhrasesSystem : EntitySystem
             if (critThreshold <= 0)
                 continue;
 
-            var totalDamage = (float) damageable.TotalDamage;
-            var hpPercent = 1f - (float)(totalDamage / critThreshold);
-            hpPercent = Math.Clamp(hpPercent, 0f, 1f);
-
+            var hpPercent = Math.Clamp(1f - (float)(damageable.TotalDamage / critThreshold), 0f, 1f);
             var level = GetHpLevel(hpPercent);
             if (level == HpLevel.None)
                 continue;
 
             var raceKey = GetRaceKey(humanoid.Species.Id);
 
-            // ── Popup (40–180 сек кд) ──────────────────────────────────────
+            // ── Popup ──────────────────────────────────────────────────────
             if (now >= phrases.NextPopupTime)
             {
-                var popupText = PickPhrase(uid, phrases, level, PhraseType.Popup, raceKey);
-                if (popupText != null)
-                    _popup.PopupEntity(popupText, uid, uid, PopupType.SmallCaution);
-
-                phrases.NextPopupTime = now + TimeSpan.FromSeconds(_random.NextDouble() * 140 + 40);
+                TryOutputPhrase(uid, phrases, level, PhraseType.Popup, raceKey);
+                phrases.NextPopupTime = now + TimeSpan.FromSeconds(_random.NextFloat(_popupMin, _popupMax));
             }
 
-            // ── Whisper/Say (60–300 сек кд) — только с уровня 25% ─────────
+            // ── Whisper (с Level25) ────────────────────────────────────────
             if (level >= HpLevel.Level25 && now >= phrases.NextSpeechTime)
             {
-                PhraseType speechType;
-                if (level >= HpLevel.Level15)
-                    speechType = _random.Prob(0.4f) ? PhraseType.Say : PhraseType.Whisper;
-                else
-                    speechType = PhraseType.Whisper;
-
-                var speechText = PickPhrase(uid, phrases, level, speechType, raceKey);
-                if (speechText != null)
-                {
-                    if (speechType == PhraseType.Whisper)
-                        _chat.TrySendInGameICMessage(uid, speechText, InGameICChatType.Whisper, hideChat: true);
-                    else
-                        _chat.TrySendInGameICMessage(uid, speechText, InGameICChatType.Speak, hideChat: true);
-                }
-
-                phrases.NextSpeechTime = now + TimeSpan.FromSeconds(_random.NextDouble() * 240 + 60);
+                TryOutputPhrase(uid, phrases, level, PhraseType.Whisper, raceKey);
+                phrases.NextSpeechTime = now + TimeSpan.FromSeconds(_random.NextFloat(_whisperMin, _whisperMax));
             }
         }
     }
 
-    private string? PickPhrase(EntityUid uid, HealthPhrasesComponent comp, HpLevel level, PhraseType type, string raceKey)
+    public void TryOutputPhrase(EntityUid uid, HealthPhrasesComponent phrases, HpLevel level, PhraseType type, string raceKey)
     {
-        // 1. Пользовательские фразы
-        var customList = GetCustomList(comp, level);
+        var text = PickPhrase(phrases, level, type, raceKey);
+        if (text == null)
+            return;
+
+        if (type == PhraseType.Popup)
+            _popup.PopupEntity(text, uid, uid, PopupType.DutyHealthPain);
+        else
+            _chat.SendDutyHealthPainWhisper(uid, text);
+    }
+
+    private string? PickPhrase(HealthPhrasesComponent comp, HpLevel level, PhraseType type, string raceKey)
+    {
+        var customList = GetCustomList(comp, level, type);
         if (customList.Count > 0)
             return _random.Pick(customList);
 
-        // 2. Расовые фразы из ftl
         var ftlKey = BuildFtlKey(raceKey, level, type);
-        if (TryPickFtlPhrase(ftlKey, out var racialPhrase))
-            return racialPhrase;
+        if (TryPickFtlPhrase(ftlKey, out var racial))
+            return racial;
 
-        // 3. Общие фразы из ftl (fallback)
         var generalKey = BuildFtlKey("general", level, type);
-        if (TryPickFtlPhrase(generalKey, out var generalPhrase))
-            return generalPhrase;
+        if (TryPickFtlPhrase(generalKey, out var general))
+            return general;
 
         return null;
     }
@@ -126,8 +164,7 @@ public sealed class HealthPhrasesSystem : EntitySystem
         var variants = new List<string>();
         for (var i = 1; i <= 10; i++)
         {
-            var key = $"{baseKey}-{i}";
-            if (Loc.TryGetString(key, out var str))
+            if (Loc.TryGetString($"{baseKey}-{i}", out var str))
                 variants.Add(str);
         }
 
@@ -143,57 +180,49 @@ public sealed class HealthPhrasesSystem : EntitySystem
 
     private string BuildFtlKey(string race, HpLevel level, PhraseType type)
     {
+        // Ключи локали: 50/40/35/25/10/5 (см. health_phrases.ftl)
         var levelStr = level switch
         {
-            HpLevel.Level50 => "50",
-            HpLevel.Level40 => "40",
-            HpLevel.Level35 => "35",
+            HpLevel.Level70 => "50",
+            HpLevel.Level55 => "40",
+            HpLevel.Level40 => "35",
             HpLevel.Level25 => "25",
-            HpLevel.Level15 => "15",
             HpLevel.Level10 => "10",
             HpLevel.Level5  => "5",
             _ => "50"
         };
-
-        var typeStr = type switch
-        {
-            PhraseType.Popup   => "popup",
-            PhraseType.Whisper => "whisper",
-            PhraseType.Say     => "say",
-            _ => "popup"
-        };
-
+        var typeStr = type == PhraseType.Whisper ? "whisper" : "popup";
         return $"duty-health-phrases-{race}-{levelStr}-{typeStr}";
     }
 
-    private List<string> GetCustomList(HealthPhrasesComponent comp, HpLevel level) => level switch
+    private List<string> GetCustomList(HealthPhrasesComponent comp, HpLevel level, PhraseType type) => (level, type) switch
     {
-        HpLevel.Level50 => comp.CustomPhrases50,
-        HpLevel.Level40 => comp.CustomPhrases40,
-        HpLevel.Level35 => comp.CustomPhrases35,
-        HpLevel.Level25 => comp.CustomPhrases25,
-        HpLevel.Level15 => comp.CustomPhrases15,
-        HpLevel.Level10 => comp.CustomPhrases10,
-        HpLevel.Level5  => comp.CustomPhrases5,
+        (HpLevel.Level70, PhraseType.Popup) => comp.CustomPopup70,
+        (HpLevel.Level70, PhraseType.Whisper) => comp.CustomWhisper70,
+        (HpLevel.Level55, PhraseType.Popup) => comp.CustomPopup55,
+        (HpLevel.Level55, PhraseType.Whisper) => comp.CustomWhisper55,
+        (HpLevel.Level40, PhraseType.Popup) => comp.CustomPopup40,
+        (HpLevel.Level40, PhraseType.Whisper) => comp.CustomWhisper40,
+        (HpLevel.Level25, PhraseType.Popup) => comp.CustomPopup25,
+        (HpLevel.Level25, PhraseType.Whisper) => comp.CustomWhisper25,
+        (HpLevel.Level10, PhraseType.Popup) => comp.CustomPopup10,
+        (HpLevel.Level10, PhraseType.Whisper) => comp.CustomWhisper10,
+        (HpLevel.Level5, PhraseType.Popup) => comp.CustomPopup5,
+        (HpLevel.Level5, PhraseType.Whisper) => comp.CustomWhisper5,
         _ => new List<string>()
     };
 
-    private HpLevel GetHpLevel(float hpPercent) => hpPercent switch
+    public HpLevel GetHpLevel(float hp) => hp switch
     {
-        >= 0.40f and < 0.50f => HpLevel.Level50,
-        >= 0.35f and < 0.40f => HpLevel.Level40,
-        >= 0.25f and < 0.35f => HpLevel.Level35,
-        >= 0.15f and < 0.25f => HpLevel.Level25,
-        >= 0.10f and < 0.15f => HpLevel.Level15,
+        >= 0.55f and < 0.70f => HpLevel.Level70,
+        >= 0.40f and < 0.55f => HpLevel.Level55,
+        >= 0.25f and < 0.40f => HpLevel.Level40,
+        >= 0.10f and < 0.25f => HpLevel.Level25,
         >= 0.05f and < 0.10f => HpLevel.Level10,
         >= 0.00f and < 0.05f => HpLevel.Level5,
         _ => HpLevel.None
     };
 
-    /// <summary>
-    /// Возвращает ключ расы для ftl по species ID.
-    /// Если раса не особая — возвращает "general" (fallback).
-    /// </summary>
     private string GetRaceKey(string speciesId) => speciesId switch
     {
         "MobReptilian" => "unath",
@@ -202,23 +231,98 @@ public sealed class HealthPhrasesSystem : EntitySystem
         "MobDrask"     => "drask",
         _ => "general"
     };
+
+    // ── Консольная команда ────────────────────────────────────────────────────
+
+    [AdminCommand(AdminFlags.Admin)]
+    private void TestCommand(IConsoleShell shell, string argStr, string[] args)
+    {
+        if (args.Length < 1)
+        {
+            shell.WriteError("Использование: duty_hp_test <username> [popup|whisper]");
+            return;
+        }
+
+        var playerManager = IoCManager.Resolve<IPlayerManager>();
+        if (!playerManager.TryGetSessionByUsername(args[0], out var session))
+        {
+            shell.WriteError($"Игрок '{args[0]}' не найден.");
+            return;
+        }
+
+        var mob = session.AttachedEntity;
+        if (mob == null || !TryComp<HealthPhrasesComponent>(mob, out var phrases))
+        {
+            shell.WriteError("У игрока нет компонента HealthPhrases или он не заспавнен.");
+            return;
+        }
+
+        if (!TryComp<DamageableComponent>(mob, out var damageable) ||
+            !TryComp<MobThresholdsComponent>(mob, out var thresholds) ||
+            !TryComp<HumanoidAppearanceComponent>(mob, out var humanoid))
+        {
+            shell.WriteError("Сущность не подходит для системы фраз.");
+            return;
+        }
+
+        FixedPoint2 critThreshold = 0;
+        foreach (var (threshold, state) in thresholds.Thresholds)
+        {
+            if (state == MobState.Critical) { critThreshold = threshold; break; }
+        }
+
+        if (critThreshold <= 0)
+        {
+            shell.WriteError("Не удалось определить порог крита.");
+            return;
+        }
+
+        var hpPercent = Math.Clamp(1f - (float)(damageable.TotalDamage / critThreshold), 0f, 1f);
+        var level = GetHpLevel(hpPercent);
+
+        if (level == HpLevel.None)
+        {
+            shell.WriteError($"HP {hpPercent:P0} — вне диапазона системы (нужно ниже 70%).");
+            return;
+        }
+
+        var typeArg = args.Length >= 2 ? args[1].ToLower() : "popup";
+        var type = typeArg == "whisper" ? PhraseType.Whisper : PhraseType.Popup;
+        var raceKey = GetRaceKey(humanoid.Species.Id);
+
+        TryOutputPhrase(mob.Value, phrases, level, type, raceKey);
+        shell.WriteLine($"Фраза выдана: уровень {level}, тип {type}, раса {raceKey}.");
+    }
+
+    private CompletionResult TestCommandCompletion(IConsoleShell shell, string[] args)
+    {
+        if (args.Length == 1)
+        {
+            var playerManager = IoCManager.Resolve<IPlayerManager>();
+            var names = playerManager.Sessions.Select(s => new CompletionOption(s.Name));
+            return CompletionResult.FromOptions(names);
+        }
+
+        if (args.Length == 2)
+            return CompletionResult.FromOptions(new[] { new CompletionOption("popup"), new CompletionOption("whisper") });
+
+        return CompletionResult.Empty;
+    }
 }
 
 public enum HpLevel
 {
     None,
-    Level50, // 40–50%
-    Level40, // 35–40%
-    Level35, // 25–35%
-    Level25, // 15–25%
-    Level15, // 10–15%
-    Level10, // 5–10%
-    Level5,  // 0–5%
+    Level70,
+    Level55,
+    Level40,
+    Level25,
+    Level10,
+    Level5,
 }
 
 public enum PhraseType
 {
     Popup,
     Whisper,
-    Say,
 }

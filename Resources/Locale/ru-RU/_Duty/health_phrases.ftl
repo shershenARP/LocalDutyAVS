@@ -3,7 +3,7 @@
 # ============================================================
 # 0-5 - Агония
 # 5-10 - сильная боль
-# 10-20 - тоже сильная да
+# 10-25 - тоже сильная да
 # 25-40 - средняя боль
 # 40-55 - еще посидим
 # 55-70 нормалда, но больненько
@@ -897,12 +897,13 @@ duty-health-phrases-drask-5-say-10 = ...мм...
 # ── UI вкладки персонализации ─────────────────────────────────────────────────
 duty-health-phrases-tab-name = Реплики боли
 duty-health-phrases-tab-title = Реплики боли
-duty-health-phrases-tab-hint = Фразы, которые ваш персонаж будет произносить при ранениях. Оставьте пустым — будут использоваться стандартные фразы. Каждая фраза с новой строки.
+duty-health-phrases-tab-hint = Фразы при ранениях. Пустое поле — стандартные из игры. Каждая фраза с новой строки. Шёпот (whisper) в игре срабатывает при HP ниже 25%.
 duty-health-phrases-placeholder = Каждая фраза с новой строки...
-duty-health-phrases-level-50 = 40–50% здоровья
-duty-health-phrases-level-40 = 35–40% здоровья
-duty-health-phrases-level-35 = 25–35% здоровья
-duty-health-phrases-level-25 = 15–25% здоровья
-duty-health-phrases-level-15 = 10–15% здоровья
+duty-health-phrases-popup-label = Pop-up (над головой)
+duty-health-phrases-whisper-label = Whisper (шёпот в чат)
+duty-health-phrases-level-70 = 55–70% здоровья
+duty-health-phrases-level-55 = 40–55% здоровья
+duty-health-phrases-level-40 = 25–40% здоровья
+duty-health-phrases-level-25 = 10–25% здоровья
 duty-health-phrases-level-10 = 5–10% здоровья
 duty-health-phrases-level-5 = 0–5% здоровья

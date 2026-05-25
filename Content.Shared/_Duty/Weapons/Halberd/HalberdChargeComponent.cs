@@ -68,4 +68,9 @@ public sealed partial class HalberdChargeResistComponent : Component
 {
     /// <summary>Доля урона которая блокируется (0.65 = 65% резист).</summary>
     public float Resistance = 0.65f;
+
+    /// <summary>CanCollide до рывка (восстанавливается по окончании).</summary>
+    public bool HadCanCollide;
+
+    public bool CanCollideBefore;
 }

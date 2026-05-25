@@ -1,0 +1,14 @@
+<Control xmlns="https://spacestation14.io"
+         xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+         xmlns:ui="clr-namespace:Robust.Client.UserInterface.Controls;assembly=Robust.Client"
+         HorizontalExpand="True"
+         VerticalExpand="True">
+
+    <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
+        <BoxContainer Name="LevelsContainer"
+                      Orientation="Vertical"
+                      HorizontalExpand="True"
+                      Margin="10"
+                      SeparationOverride="12"/>
+    </ScrollContainer>
+</Control>
