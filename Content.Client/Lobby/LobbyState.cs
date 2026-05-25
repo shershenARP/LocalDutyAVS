@@ -14,6 +14,7 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
 using Robust.Shared.Timing;
+using Content.Client.DutyCritChatSystem;
 
 namespace Content.Client.Lobby
 {

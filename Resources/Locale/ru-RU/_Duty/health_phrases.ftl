@@ -897,7 +897,7 @@ duty-health-phrases-drask-5-say-10 = ...мм...
 # ── UI вкладки персонализации ─────────────────────────────────────────────────
 duty-health-phrases-tab-name = Реплики боли
 duty-health-phrases-tab-title = Реплики боли
-duty-health-phrases-tab-hint = Фразы при ранениях. Пустое поле — стандартные из игры. Каждая фраза с новой строки. Шёпот (whisper) в игре срабатывает при HP ниже 25%.
+duty-health-phrases-tab-hint = Фразы при ранениях. Пустое поле — стандартные от ИИ. Каждая фраза с новой строки. Шёпот в игре срабатывает при HP ниже 25%.
 duty-health-phrases-placeholder = Каждая фраза с новой строки...
 duty-health-phrases-popup-label = Pop-up (над головой)
 duty-health-phrases-whisper-label = Whisper (шёпот в чат)

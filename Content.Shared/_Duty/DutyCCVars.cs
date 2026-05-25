@@ -16,10 +16,58 @@ public sealed class DutyCCVars
         CVarDef.Create("duty.ambient_music_enabled", true, CVar.ARCHIVE | CVar.CLIENTONLY);
 
     /// <summary>
-    /// Громкость динамической фоновой музыки (0.0–1.0).
+    /// Устаревший общий множитель; если &gt; 0, умножается на громкость каждого уровня.
     /// </summary>
     public static readonly CVarDef<float> DynamicAmbientMusicVolume =
-        CVarDef.Create("duty.ambient_music_volume", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+        CVarDef.Create("duty.ambient_music_volume", 1f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<bool> DynamicAmbientMusicPeacefulDisabled =
+        CVarDef.Create("duty.ambient_music_disable_peaceful", false, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<bool> DynamicAmbientMusicCombatDisabled =
+        CVarDef.Create("duty.ambient_music_disable_combat", false, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeVeryGood =
+        CVarDef.Create("duty.ambient_music_volume_very_good", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeGood =
+        CVarDef.Create("duty.ambient_music_volume_good", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeMedium =
+        CVarDef.Create("duty.ambient_music_volume_medium", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeBelowMedium =
+        CVarDef.Create("duty.ambient_music_volume_below_medium", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeAwful =
+        CVarDef.Create("duty.ambient_music_volume_awful", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeHpCritical =
+        CVarDef.Create("duty.ambient_music_volume_hp_critical", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeMobCritical =
+        CVarDef.Create("duty.ambient_music_volume_mob_critical", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeCombat =
+        CVarDef.Create("duty.ambient_music_volume_combat", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeCombatLow =
+        CVarDef.Create("duty.ambient_music_volume_combat_low", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeDeath =
+        CVarDef.Create("duty.ambient_music_volume_death", 0.15f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    /// <summary>Доп. усиление critmode-музыки (dB), поверх boost из yml.</summary>
+    public static readonly CVarDef<float> DynamicAmbientMusicCritExtraBoostDb =
+        CVarDef.Create("duty.ambient_music_crit_extra_boost_db", 2.5f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    /// <summary>Множитель master gain в крит. состоянии (0–1).</summary>
+    public static readonly CVarDef<float> CritAudioDuckGain =
+        CVarDef.Create("duty.crit_audio_duck_gain", 0.28f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    /// <summary>Длительность плавного duck / восстановления (сек).</summary>
+    public static readonly CVarDef<float> CritAudioDuckFadeSeconds =
+        CVarDef.Create("duty.crit_audio_duck_fade_seconds", 1.5f, CVar.ARCHIVE | CVar.CLIENTONLY);
 
     /// <summary>
     /// Секретный API-ключ OpenRouter для NPC-бармена.
