@@ -18,6 +18,7 @@ using Content.Client.UserInterface.Systems.Gameplay;
 using Content.Shared.Administration;
 using Content.Shared.ADT.UI.Chat;
 using Content.Shared.CCVar;
+using Content.Client._Duty.Crit;
 using Content.Shared.Chat;
 using Content.Shared.Damage.ForceSay;
 using Content.Shared.Decals;
@@ -61,6 +62,7 @@ public sealed partial class ChatUIController : UIController
     [Dependency] private readonly IReplayRecordingManager _replayRecording = default!;
 
     [UISystemDependency] private readonly ExamineSystem? _examine = default;
+    [UISystemDependency] private readonly DutyCritChatSystem? _dutyCritChat = default;
     [UISystemDependency] private readonly GhostSystem? _ghost = default;
     [UISystemDependency] private readonly TypingIndicatorSystem? _typingIndicator = default;
     [UISystemDependency] private readonly ChatSystem? _chatSys = default;
@@ -822,6 +824,8 @@ public sealed partial class ChatUIController : UIController
 
     public void ProcessChatMessage(ChatMessage msg, bool speechBubble = true)
     {
+        _dutyCritChat?.ProcessIncomingMessage(msg); 
+
         // color the name unless it's something like "the old man"
         if ((msg.Channel == ChatChannel.Local || msg.Channel == ChatChannel.Whisper) && _chatNameColorsEnabled)
         {
