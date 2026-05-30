@@ -1,0 +1,1107 @@
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  id: BorgModuleEswordRecipe
+  suffix: FXX
+  result: BorgModuleEsword
+  completetime: 20
+  materials:
+    Steel: 1500
+    Glass: 500
+    Plastic: 250
+    Gold: 1000
+    Silver: 2000
+    Plasma: 5000
+    Uranium: 2000
+
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: BorgModuleC20rRecipe
+  result: BorgModuleC20r
+  completetime: 30
+  materials:
+    Steel: 3000
+    Glass: 500
+    Plastic: 250
+    Gold: 500
+    Silver: 300
+    Plasma: 2500
+    Uranium: 650
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: BorgModuleDoubleEswordRecipe
+  result: BorgModuleDoubleEsword
+  completetime: 90
+  materials:
+    Steel: 3000
+    Glass: 500
+    Plastic: 250
+    Gold: 4000
+    Silver: 6000
+    Plasma: 10000
+    Uranium: 8000 
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: BorgModuleL6CRecipe
+  result: BorgModuleL6C
+  completetime: 120
+  materials:
+    Steel: 6500
+    Plastic: 1000
+    Gold: 3100
+    Silver: 2200
+    Plasma: 5600
+    Uranium: 3200     
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: BorgModuleSyndicateWeaponRecipe
+  result: BorgModuleSyndicateWeapon
+  completetime: 10
+  materials:
+    Steel: 1000
+    Plastic: 400
+    Gold: 400
+    Silver: 200
+    Plasma: 800
+    Uranium: 600
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: BorgModuleOperativeRecipe
+  result: BorgModuleOperative
+  completetime: 15
+  materials:
+    Steel: 900
+    Plastic: 300
+    Glass: 500    
+    Gold: 600
+    Silver: 400
+    Plasma: 500
+    Uranium: 400
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: BorgChassisSyndicateAssaultRecipe
+  result: BorgChassisSyndicateAssault
+  completetime: 180
+  materials:
+    Steel: 9000
+    Plastic: 1000
+    Gold: 1000
+    Silver: 1200
+    Plasma: 500
+    Uranium: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: BorgChassisSyndicateSaboteurRecipe
+  result: BorgChassisSyndicateSaboteur
+  completetime: 120
+  materials:
+    Steel: 6000
+    Plastic: 1100
+    Glass: 500    
+    Gold: 600
+    Silver: 800
+    Plasma: 400
+    Uranium: 400  
+     
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: BorgChassisSyndicateMedicalRecipe
+  result: BorgChassisSyndicateMedical
+  completetime: 150
+  materials:
+    Steel: 7500
+    Plastic: 1500
+    Glass: 500
+    Gold: 600
+    Silver: 1200
+    Plasma: 900
+    Uranium: 800
+    
+###pack
+- type: latheRecipePack
+  id: SyndicateBorg
+  recipes:
+  - BorgModuleDoubleEswordRecipe
+  - BorgModuleC20rRecipe
+  - BorgModuleL6CRecipe
+  - BorgModuleSyndicateWeaponRecipe
+  - BorgModuleOperativeRecipe
+  - BorgChassisSyndicateAssaultRecipe
+  - BorgChassisSyndicateSaboteurRecipe
+  - BorgChassisSyndicateMedicalRecipe
+
+- type: latheRecipePack
+  id: Syndicateauto
+  recipes:
+  - WeaponSniperMosinRecipe
+  - EmagRecipe
+  - SyndicateJawsOfLifeRecipe
+  - MedkitCombatFilledRecipe
+  - ClothingOuterHardsuitSyndieCommanderRecipe
+  - ClothingOuterHardsuitJuggernautRecipe
+  - ClothingOuterHardsuitSyndieEliteRecipe
+  - ClothingOuterHardsuitSyndieRecipe
+  - ClothingHandsGlovesNorthStarRecipe
+  - ClothingOuterVestWebRecipe
+  - ClothingShoesChameleonNoSlipsRecipe
+  - ClothingOuterVestWebEliteRecipe
+  - WeaponEnergyCrossbowRecipe
+  - WeaponLightMachineGunL6Recipe
+  - WeaponPistolCobraRecipe
+  - WeaponShotgunBulldogRecipe
+  - WeaponPistolViperRecipe
+  - WeaponSniperHristovRecipe
+  - WeaponSniperMosinRecipe
+  - WeaponSubMachineGunC20rRecipe
+  - ExGrenadeRecipe
+  - SyndieMiniBombRecipe
+  - MagazineBoxAntiMaterielRecipe
+  - MagazinePistolCaselessRifleRecipe
+  - EnergyDaggerRecipe
+  - EnergySwordRecipe
+  - EnergySwordDoubleRecipe
+  - WeaponSniperMosinAmmoRecipe
+  - WeaponPPAmmoRecipe
+  - WeaponPistolAmmoRecipe
+  - ResearchBottleBaseRecipe
+  - ResearchBottleStandartRecipe
+  - ResearchBottleAdvancedRecipe
+  - ResearchBottleEliteRecipe
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ResearchBottleBaseRecipe
+  result: ResearchBottleBase
+  completetime: 3
+  materials:
+    Steel: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ResearchBottleStandartRecipe
+  result: ResearchBottleStandart
+  completetime: 5
+  materials:
+    Steel: 500
+    Plastic: 500
+    Glass: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ResearchBottleAdvancedRecipe
+  result: ResearchBottleAdvanced
+  completetime: 7
+  materials:
+    Steel: 500
+    Plastic: 500
+    Glass: 500
+    Silver: 500
+    Plasma: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ResearchBottleEliteRecipe
+  result: ResearchBottleElite
+  completetime: 12
+  materials:
+    Steel: 500       
+    Plasma: 500
+    Plastic: 500
+    Gold: 500
+    Silver: 500
+    Glass: 500 
+
+
+
+#WeaponSniperMosin
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponSniperMosinRecipe
+  result: WeaponSniperMosin
+  completetime: 5
+  materials:
+    Steel: 650
+    Plastic: 100
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponSniperMosinAmmoRecipe
+  result: MagazineBoxLightRifle
+  completetime: 6
+  materials:
+    Steel: 800
+    Plastic: 100 
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponPPAmmoRecipe
+  result: MagazinePistolSubMachineGun
+  completetime: 4
+  materials:
+    Steel: 320
+    Plastic: 100  
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponPistolAmmoRecipe
+  result: MagazinePistol
+  completetime: 2
+  materials:
+    Steel: 220
+    Plastic: 100             
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponPistolViperRecipe
+  result: WeaponPistolViper
+  completetime: 7
+  materials:
+    Steel: 400
+    Plastic: 50
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponPistolCobraRecipe
+  result: WeaponPistolCobra
+  completetime: 10
+  materials:
+    Steel: 900
+    Plastic: 100
+    Silver: 350
+    Plasma: 50
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: MagazinePistolCaselessRifleRecipe
+  result: MagazinePistolCaselessRifle
+  completetime: 10
+  materials:
+    Steel: 300
+    Plasma: 200
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: EnergyDaggerRecipe
+  result: EnergyDagger
+  completetime: 15
+  materials:
+    Steel: 200
+    Plastic: 10
+    Plasma: 500
+    Uranium: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponEnergyCrossbowRecipe
+  result: WeaponEnergyCrossbow
+  completetime: 25
+  materials:
+    Steel: 400
+    Plastic: 300
+    Plasma: 1100
+    Uranium: 900
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ClothingHandsGlovesNorthStarRecipe
+  result: ClothingHandsGlovesNorthStar
+  completetime: 18
+  materials:
+    Steel: 50
+    Plastic: 750
+    Plasma: 800
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: EnergySwordRecipe
+  result: EnergySword
+  completetime: 30
+  materials:
+    Steel: 500
+    Plastic: 100
+    Plasma: 1500
+    Uranium: 1000
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: EnergySwordDoubleRecipe
+  result: EnergySwordDouble
+  completetime: 90
+  materials:
+    Steel: 2500
+    Glass: 500
+    Plastic: 250
+    Gold: 4000
+    Silver: 6000
+    Plasma: 10000
+    Uranium: 8000 
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponShotgunBulldogRecipe
+  result: WeaponShotgunBulldog
+  completetime: 65
+  materials:
+    Steel: 2100
+    Plastic: 1000
+    Silver: 800
+    Gold: 200
+    Plasma: 20  
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponSubMachineGunC20rRecipe
+  result: WeaponSubMachineGunC20r
+  completetime: 35
+  materials:
+    Steel: 1800
+    Plastic: 400
+    Silver: 600
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponLightMachineGunL6Recipe
+  result: WeaponLightMachineGunL6
+  completetime: 90
+  materials:
+    Steel: 6500
+    Plastic: 2000
+    Silver: 1500
+    Gold: 1000
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: MagazineLightRifleBoxRecipe
+  result: MagazineLightRifleBox
+  completetime: 20
+  materials:
+    Steel: 3000
+    Plastic: 100
+    Silver: 200
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponSniperHristovRecipe
+  result: WeaponSniperHristov
+  completetime: 30
+  materials:
+    Steel: 1500
+    Plastic: 1000
+    Silver: 1000
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: MagazineBoxAntiMaterielRecipe
+  result: MagazineBoxAntiMateriel
+  completetime: 15
+  materials:
+    Silver: 1000
+    Plasma: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: EmpGrenadeRecipe
+  result: EmpGrenade
+  completetime: 10
+  materials:
+    Steel: 300
+    Plasma: 300
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: C4Recipe
+  result: C4
+  completetime: 6
+  materials:
+    Plasma: 200
+    Plastic: 400
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ExGrenadeRecipe
+  result: ExGrenade
+  completetime: 8
+  materials:
+    Steel: 100
+    Plastic: 300
+    Plasma: 150
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: SyndieMiniBombRecipe
+  result: SyndieMiniBomb
+  completetime: 15
+  materials:
+    Plasma: 1500
+    Plastic: 600  
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ClothingShoesChameleonNoSlipsRecipe
+  result: ClothingShoesChameleonNoSlips
+  completetime: 10
+  materials:
+    Plasma: 400
+    Plastic: 200  
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: JetpackBlackFilledRecipe
+  result: JetpackBlackFilled
+  completetime: 5
+  materials:
+    Steel: 650
+    Plastic: 100
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ClothingOuterVestWebRecipe
+  result: ClothingOuterVestWeb
+  completetime: 12
+  materials:
+    Steel: 200
+    Plastic: 1000
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ClothingOuterVestWebEliteRecipe
+  result: ClothingOuterVestWebElite
+  completetime: 16
+  materials:
+    Steel: 350
+    Plastic: 1200
+    Plasma: 100  
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ClothingOuterHardsuitSyndieRecipe
+  result: ClothingOuterHardsuitSyndie
+  completetime: 20
+  materials:
+    Steel: 1500
+    Plastic: 300  
+    Glass: 100
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ClothingOuterHardsuitSyndieEliteRecipe
+  result: ClothingOuterHardsuitSyndieElite
+  completetime: 26
+  materials:
+    Steel: 1800
+    Plastic: 500
+    Silver: 500
+    Gold: 10
+    Glass: 50
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ClothingOuterHardsuitJuggernautRecipe
+  result: ClothingOuterHardsuitJuggernaut
+  completetime: 60
+  materials:
+    Steel: 6000
+    Plastic: 1000
+    Glass: 600
+    Silver: 1000
+    Gold: 1200
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ClothingOuterHardsuitSyndieCommanderRecipe
+  result: ClothingOuterHardsuitSyndieCommander
+  completetime: 50
+  materials:
+    Steel: 4000
+    Plastic: 500
+    Glass: 200
+    Silver: 400
+    Gold: 200  
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: MedkitCombatFilledRecipe
+  result: MedkitCombatFilled
+  completetime: 10
+  materials:
+    Steel: 100
+    Plastic: 200
+    Glass: 200
+    Plasma: 100
+    Gold: 100
+    Silver: 100  
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: SyndicateJawsOfLifeRecipe
+  result: SyndicateJawsOfLife
+  completetime: 8
+  materials:
+    Steel: 800
+    Plasma: 200
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: EmagRecipe
+  result: Emag
+  completetime: 10
+  materials:
+    Plasma: 400
+    Silver: 200
+    Gold: 200
+    Plastic: 400
+
+- type: startingGear
+  id: TaypanScientistFXXGear
+  equipment:
+    shoes: ClothingShoesBootsSyndieFilled # Corvax-Resprite-MRP
+    outerClothing: ClothingOuterCoatLab
+    jumpsuit: ClothingUniformJumpsuitOperative
+    jumpskirt: ClothingUniformJumpskirtOperative
+    id: SyndiPDA
+    ears: ClothingHeadsetAltSyndicate
+    back: ClothingBackpackSatchel
+
+- type: entity
+  id: AutolatheMachineCircuitboardSyndieFXX
+  suffix: FXX
+  parent: BaseMachineCircuitboard
+  name: плата автолата синдиката
+  description: тупан.
+  components:
+    - type: MachineBoard
+      prototype: Autolathe
+      stackRequirements:
+        Manipulator: 4
+        Glass: 1
+
+- type: entity
+  id: ProtolatheMachineCircuitboardSyndieFXX
+  suffix: FXX
+  parent: BaseMachineCircuitboard
+  name: плата протолата синдиката
+  description: тупан.
+  components:
+  - type: Sprite
+    state: science
+  - type: MachineBoard
+    prototype: Protolathe
+    stackRequirements:
+      Manipulator: 4
+    tagRequirements:
+      GlassBeaker:
+        amount: 2
+        defaultPrototype: Beaker
+        
+- type: entity
+  id: ExosuitFabricatorMachineCircuitboardSyndieFXX
+  parent: BaseMachineCircuitboard
+  name: плата экхосьюита синдиката
+  components:
+  - type: Sprite
+    state: science
+  - type: MachineBoard
+    prototype: ExosuitFabricator
+    stackRequirements:
+      Manipulator: 4
+      Glass: 5
+  - type: GuideHelp
+    guides:
+    - Robotics
+
+- type: entity
+  id: AutolatheSyndieFXX
+  parent: BaseLatheLube
+  suffix: FXX
+  name: Автолат Синдиката
+  description: тупан.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/autolathe.rsi
+    snapCardinals: true
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: AutolatheMachineCircuitboardSyndieFXX
+  - type: MaterialStorage
+    whitelist: &StandardMaterialWhitelist
+      tags:
+        - Sheet
+        - RawMaterial
+        - Ingot
+  - type: OreSiloClient
+  - type: Lathe
+    idleState: icon
+    runningState: building
+    unlitIdleState: unlit
+    unlitRunningState: unlit-building
+    staticPacks:
+    - ToolsStatic
+    - PartsStatic
+    - AtmosStatic
+    - CablesStatic
+    - PaperworkStatic
+    - TowelsStatic
+    - CargoStatic
+    - MaterialsStatic
+    - BasicChemistryStatic
+    - RollerBedsStatic
+    - LightsStatic
+    - ServiceStatic
+    - PowerCellsStatic
+    - ElectronicsStatic
+  - type: BlueprintReceiver
+    whitelist:
+      tags:
+      - BlueprintAutolathe
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+      blueprint: !type:Container
+  - type: EmptyOnMachineDeconstruct
+    containers:
+    - blueprint     
+
+- type: entity
+  id: ProtolatheSyndieFXX
+  parent: BaseLatheLube
+  suffix: FXX
+  name: протолат синдиката
+  description: тупан.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/protolathe.rsi
+    snapCardinals: true
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: ProtolatheMachineCircuitboardSyndieFXX
+  - type: MaterialStorage
+    whitelist: *StandardMaterialWhitelist
+  - type: OreSiloClient
+  - type: Lathe
+    idleState: icon
+    runningState: building
+    unlitIdleState: unlit
+    unlitRunningState: unlit-building
+    staticPacks:
+    - ChemistryStatic
+    - SurgeryStatic
+    - AdvancedTools
+    - ScienceEquipment
+    - ScienceExplosives
+    - ScienceClothing
+    - PowerCells
+    - ScienceWeapons
+    - Mining
+    - AtmosTools
+    - EngineeringWeapons
+    - Chemistry
+    - Janitor
+    - Instruments
+    - Equipment
+        
+- type: entity
+  id: ExosuitFabricatorSyndieFXX
+  suffix: FXX
+  parent: BaseLatheLube
+  name: Экзосют фабрикатор синдиката
+  description: позволяет делать супер боргов.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/exosuit_fabricator.rsi
+    layers:
+    - state: fab-idle
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: fab-load
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: fab-o
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: ExosuitFabricatorMachineCircuitboardSyndieFXX
+  - type: Lathe
+    idleState: fab-idle
+    runningState: fab-active
+    staticPacks:
+    - RoboticsStatic
+    - BorgModulesStatic
+    - BorgLimbsStatic
+    - BorgModules
+    - MechParts
+    - MechEquipment
+  - type: MaterialStorage
+    whitelist: *StandardMaterialWhitelist
+  - type: OreSiloClient
+  - type: GuideHelp
+    guides:
+    - Robotics       
+
+- type: entity
+  id: OmnilatheSyndieFXX
+  parent: BaseLatheLube
+  suffix: FXX
+  name: Омнилат Синдиката
+  description: тупан.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/protolathe.rsi
+    snapCardinals: true
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: ProtolatheMachineCircuitboardSyndieFXX
+  - type: MaterialStorage
+    whitelist: *StandardMaterialWhitelist
+  - type: OreSiloClient
+  - type: Lathe
+    idleState: icon
+    runningState: building
+    unlitIdleState: unlit
+    unlitRunningState: unlit-building
+    staticPacks:
+    - Syndicateauto
+    - SyndicateBorg
+
+- type: vendingMachineInventory
+  id: TaypanClothingFXXInventory
+  startingInventory:
+    ClothingOuterCoatLab: 16
+    ADTClothingOuterCoatCyberSun: 16
+    ClothingOuterCoatLabSecurityMedic: 16
+    ClothingOuterCoatLabSeniorPhysician: 16
+    ClothingOuterCoatLabViro: 16
+    ClothingOuterCoatLabGene: 16
+    ClothingOuterCoatLabCmo: 16
+    ClothingOuterCoatLabSeniorResearcher: 16
+    ClothingOuterCoatRD: 16
+    ADTClothingOuterCoatLabPathologist: 16
+    ClothingOuterCoatRobo: 16
+    ClothingOuterCoatRnd: 16
+    ClothingOuterCoatAMG: 16
+    ADTClothingOuterCoatLabcoatCMOHike: 16
+    ADTOuterClothingCoatsCrazyScientist: 16
+    ADTClothingOuterCoatLabPathologist_alt: 16
+    ClothingUniformJumpskirtTacticalMaid: 16
+    ClothingHeadHatBeretEngineering: 16
+    ClothingHeadHatBeretQM: 16
+    ClothingHeadHatBeretMerc: 16
+    ADTClothingHeadHatBeretCEngineer: 16
+    ADTClothingHeadHatBeretBlackCivilian: 16
+    ClothingHeadHatBeretRND: 16
+    ADTClothingHeadHatsBeretSupply: 16
+    ClothingHeadHatSyndieMAA: 16
+    ADTClothingNeckGothicCloak: 16
+    ADTClothingNeckCloakSyndicate: 16
+    ADTClothingNeckCloakNukeOps: 16
+    ClothingCloakAtmosian: 16
+    ClothingNeckCloakSalvagerSupreme: 16
+    ClothingNeckCloakGoliathCloak: 16
+    ClothingNeckCloakPirateCap: 16
+    ADTClothingNeckCloakKnight: 16
+    ADTClothingNeckDarkGreyCloak: 16
+    ADTClothingEyesGlassesMedChem: 16
+    ClothingEyesGlassesHiddenSecurity: 16
+    ClothingEyesGlasses: 16
+    ADTClothingEyesWeldingOldStyle: 16
+
+
+- type: entity
+  parent: VendingMachine
+  id: VendingMachineTaypanDrobeFXX
+  name: Тайпано-Шкаф
+  description: тупан.
+  components:
+  - type: VendingMachine
+    pack: TaypanClothingFXXInventory
+    offState: off
+    brokenState: broken
+    normalState: normal-unshaded
+    allForFree: true # ADT-Economy
+  - type: DatasetVocalizer
+    dataset: SyndieDrobeAds
+  - type: SpeakOnUIClosed
+    pack: SyndieDrobeGoodbyes
+  - type: Sprite
+    sprite: Structures/Machines/VendingMachines/syndiedrobe.rsi
+    layers:
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.Base"]
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
+      shader: unshaded
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: PointLight
+    radius: 1.5
+    energy: 3.0
+    color: "#d82929"
+  - type: AccessReader
+    access: [["NuclearOperative"], ["SyndicateAgent"]]
+
+
+###Uplink
+- type: entity
+  name: Базовый Исследовательский Пакет
+  parent: [BaseItem, BaseSyndicateContraband]
+  id: ResearchBottleBase
+  description: It seems to be pulsing with suspiciously enticing energies.
+  components:
+  - type: Sprite
+    sprite: _FXX/ResearchBottle.rsi
+    state: BottleBase
+  - type: Item
+    sprite: _FXX/ResearchBottle.rsi
+    size: Tiny
+  - type: StaticPrice
+    price: 0
+  - type: StackPrice
+    price: 200
+  - type: Currency
+    price:
+      ResearchBottleBase: 50
+
+- type: currency
+  id: ResearchBottleBase
+  displayName: Базовый Исследовательский Пакет 
+  cash:
+    50: ResearchBottleBase
+  canWithdraw: true
+
+- type: entity
+  name: Стандартный Исследовательский Пакет
+  parent: [BaseItem, BaseSyndicateContraband]
+  id: ResearchBottleStandart
+  description: It seems to be pulsing with suspiciously enticing energies.
+  components:
+  - type: Sprite
+    sprite: _FXX/ResearchBottle.rsi
+    state: BottleStandart
+  - type: Item
+    sprite: _FXX/ResearchBottle.rsi
+    size: Tiny
+  - type: StaticPrice
+    price: 0
+  - type: StackPrice
+    price: 200
+  - type: Currency
+    price:
+      ResearchBottleStandart: 50
+
+- type: currency
+  id: ResearchBottleStandart
+  displayName: Стандартный Исследовательский Пакет 
+  cash:
+    50: ResearchBottleStandart
+  canWithdraw: true
+
+- type: entity
+  name: Продвинутый Исследовательский Пакет
+  parent: [BaseItem, BaseSyndicateContraband]
+  id: ResearchBottleAdvanced
+  description: It seems to be pulsing with suspiciously enticing energies.
+  components:
+  - type: Sprite
+    sprite: _FXX/ResearchBottle.rsi
+    state: BottleAdvanced
+  - type: Item
+    sprite: _FXX/ResearchBottle.rsi
+    size: Tiny
+  - type: StaticPrice
+    price: 0
+  - type: StackPrice
+    price: 200
+  - type: Currency
+    price:
+      ResearchBottleAdvanced: 50
+
+- type: currency
+  id: ResearchBottleAdvanced
+  displayName: Продвинутый Исследовательский Пакет 
+  cash:
+    50: ResearchBottleAdvanced
+  canWithdraw: true
+
+- type: entity
+  name: Элитный Исследовательский Пакет
+  parent: [BaseItem, BaseSyndicateContraband]
+  id: ResearchBottleElite
+  description: It seems to be pulsing with suspiciously enticing energies.
+  components:
+  - type: Sprite
+    sprite: _FXX/ResearchBottle.rsi
+    state: BottleElite
+  - type: Item
+    sprite: _FXX/ResearchBottle.rsi
+    size: Tiny
+  - type: StaticPrice
+    price: 0
+  - type: StackPrice
+    price: 200
+  - type: Currency
+    price:
+      ResearchBottleElite: 50
+
+- type: currency
+  id: ResearchBottleElite
+  displayName: Элитный Исследовательский Пакет 
+  cash:
+    50: ResearchBottleElite
+  canWithdraw: true       
+
+- type: storeCategory
+  id: UplinkTaypan
+  name: Тайпан
+  priority: 0
+
+- type: listing
+  id: UplinkTaypanSandevistan
+  name: 
+  description: 
+  productEntity: ADTSandevistanAutoSurgeon
+  cost:
+    ResearchBottleElite: 100
+    ResearchBottleAdvanced: 150
+    ResearchBottleStandart: 100
+  categories:
+  - UplinkTaypan
+
+- type: listing
+  id: UplinkTaypanPlastic
+  name: 
+  description: 
+  productEntity: CrateMaterialPlastic
+  cost:
+    ResearchBottleBase: 100
+  categories:
+  - UplinkTaypan
+
+
+- type: entity
+  id: StorePresetUplinkTaypan
+  abstract: true
+  components:
+  - type: Store
+    name: Аплинк Тайпана
+    categories:
+    - UplinkTaypan    
+    currencyWhitelist:
+    - ResearchBottleBase
+    - ResearchBottleStandart
+    - ResearchBottleAdvanced
+    - ResearchBottleElite
+    
+- type: entity
+  parent: [BaseItem, StorePresetUplinkTaypan, ComputerComms] #, BaseSyndicateContraband] # ADT Remove cringe
+  id: BaseUplinkRadioTest
+  name: Аплинк Тайпана
+  description: тупан.
+  suffix: Empty
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_syndie
+    - map: ["computerLayerKeys"]
+      state: syndie_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: PointLight
+    radius: 1.5
+    energy: 4.0
+    color: "#f71713"
+  - type: AccessReader
+    access: [[ "SyndicateAgent" ]]    
+  - type: UserInterface
+    interfaces:
+      enum.StoreUiKey.Key:
+        type: StoreBoundUserInterface
+  - type: ActivatableUI
+    key: enum.StoreUiKey.Key
+  - type: Store
+    balance:
+      ResearchBottleBase: 0
+      ResearchBottleStandart: 0
+      ResearchBottleAdvanced: 0
+      ResearchBottleElite: 0
+
