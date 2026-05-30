@@ -149,10 +149,6 @@
   id: Syndicateauto
   recipes:
   - WeaponSniperMosinRecipe
-  - MagazineBoxLightRifle
-  - MagazinePistol
-  - MagazineShotgun
-  - MagazinePistolSubMachineGun
   - EmagRecipe
   - SyndicateJawsOfLifeRecipe
   - MedkitCombatFilledRecipe
@@ -179,6 +175,61 @@
   - EnergyDaggerRecipe
   - EnergySwordRecipe
   - EnergySwordDoubleRecipe
+  - WeaponSniperMosinAmmoRecipe
+  - WeaponPPAmmoRecipe
+  - WeaponPistolAmmoRecipe
+  - ResearchBottleBaseRecipe
+  - ResearchBottleStandartRecipe
+  - ResearchBottleAdvancedRecipe
+  - ResearchBottleEliteRecipe
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ResearchBottleBaseRecipe
+  result: ResearchBottleBase
+  completetime: 3
+  materials:
+    Steel: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ResearchBottleStandartRecipe
+  result: ResearchBottleStandart
+  completetime: 5
+  materials:
+    Steel: 500
+    Plastic: 500
+    Glass: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ResearchBottleAdvancedRecipe
+  result: ResearchBottleAdvanced
+  completetime: 7
+  materials:
+    Steel: 500
+    Plastic: 500
+    Glass: 500
+    Silver: 500
+    Plasma: 500
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: ResearchBottleEliteRecipe
+  result: ResearchBottleElite
+  completetime: 12
+  materials:
+    Steel: 500       
+    Plasma: 500
+    Plastic: 500
+    Gold: 500
+    Silver: 500
+    Glass: 500 
+
 
 
 #WeaponSniperMosin
@@ -191,6 +242,36 @@
   materials:
     Steel: 650
     Plastic: 100
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponSniperMosinAmmoRecipe
+  result: MagazineBoxLightRifle
+  completetime: 6
+  materials:
+    Steel: 800
+    Plastic: 100 
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponPPAmmoRecipe
+  result: MagazinePistolSubMachineGun
+  completetime: 4
+  materials:
+    Steel: 320
+    Plastic: 100  
+
+- type: latheRecipe
+  parent: BaseBorgModuleRecipe
+  suffix: FXX
+  id: WeaponPistolAmmoRecipe
+  result: MagazinePistol
+  completetime: 2
+  materials:
+    Steel: 220
+    Plastic: 100             
 
 - type: latheRecipe
   parent: BaseBorgModuleRecipe
@@ -843,10 +924,10 @@
   description: It seems to be pulsing with suspiciously enticing energies.
   components:
   - type: Sprite
-    sprite: Objects/Specific/Syndicate/telecrystal.rsi
-    state: telecrystal
+    sprite: _FXX/ResearchBottle.rsi
+    state: BottleBase
   - type: Item
-    sprite: Objects/Specific/Syndicate/telecrystal.rsi
+    sprite: _FXX/ResearchBottle.rsi
     size: Tiny
   - type: StaticPrice
     price: 0
@@ -870,10 +951,10 @@
   description: It seems to be pulsing with suspiciously enticing energies.
   components:
   - type: Sprite
-    sprite: Objects/Specific/Syndicate/telecrystal.rsi
-    state: telecrystal
+    sprite: _FXX/ResearchBottle.rsi
+    state: BottleStandart
   - type: Item
-    sprite: Objects/Specific/Syndicate/telecrystal.rsi
+    sprite: _FXX/ResearchBottle.rsi
     size: Tiny
   - type: StaticPrice
     price: 0
@@ -897,10 +978,10 @@
   description: It seems to be pulsing with suspiciously enticing energies.
   components:
   - type: Sprite
-    sprite: Objects/Specific/Syndicate/telecrystal.rsi
-    state: telecrystal
+    sprite: _FXX/ResearchBottle.rsi
+    state: BottleAdvanced
   - type: Item
-    sprite: Objects/Specific/Syndicate/telecrystal.rsi
+    sprite: _FXX/ResearchBottle.rsi
     size: Tiny
   - type: StaticPrice
     price: 0
@@ -924,10 +1005,10 @@
   description: It seems to be pulsing with suspiciously enticing energies.
   components:
   - type: Sprite
-    sprite: Objects/Specific/Syndicate/telecrystal.rsi
-    state: telecrystal
+    sprite: _FXX/ResearchBottle.rsi
+    state: BottleElite
   - type: Item
-    sprite: Objects/Specific/Syndicate/telecrystal.rsi
+    sprite: _FXX/ResearchBottle.rsi
     size: Tiny
   - type: StaticPrice
     price: 0
@@ -944,16 +1025,42 @@
     50: ResearchBottleElite
   canWithdraw: true       
 
+- type: storeCategory
+  id: UplinkTaypan
+  name: Тайпан
+  priority: 0
+
+- type: listing
+  id: UplinkTaypanSandevistan
+  name: 
+  description: 
+  productEntity: ADTSandevistanAutoSurgeon
+  cost:
+    ResearchBottleElite: 100
+    ResearchBottleAdvanced: 150
+    ResearchBottleStandart: 100
+  categories:
+  - UplinkTaypan
+
+- type: listing
+  id: UplinkTaypanPlastic
+  name: 
+  description: 
+  productEntity: CrateMaterialPlastic
+  cost:
+    ResearchBottleBase: 100
+  categories:
+  - UplinkTaypan
 
 
 - type: entity
-  id: StorePresetUplinkTest
+  id: StorePresetUplinkTaypan
   abstract: true
   components:
   - type: Store
-    name: store-preset-name-uplink
+    name: Аплинк Тайпана
     categories:
-    - UplinkWeaponry    
+    - UplinkTaypan    
     currencyWhitelist:
     - ResearchBottleBase
     - ResearchBottleStandart
@@ -961,19 +1068,30 @@
     - ResearchBottleElite
     
 - type: entity
-  parent: [BaseItem, StorePresetUplinkTest] #, BaseSyndicateContraband] # ADT Remove cringe
+  parent: [BaseItem, StorePresetUplinkTaypan, ComputerComms] #, BaseSyndicateContraband] # ADT Remove cringe
   id: BaseUplinkRadioTest
-  name: syndicate uplink
-  description: Suspiciously looking old radio...
+  name: Аплинк Тайпана
+  description: тупан.
   suffix: Empty
   components:
   - type: Sprite
-    sprite: ADT/Objects/Devices/communication.rsi # ADT-tweak: Objects/Devices/communication.rsi --> ADT/Objects/Devices/communication.rsi
     layers:
-    - state: old-radio
-  - type: Item
-    sprite: ADT/Objects/Devices/communication.rsi # ADT-tweak: Objects/Devices/communication.rsi --> ADT/Objects/Devices/communication.rsi
-    heldPrefix: old-radio
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_syndie
+    - map: ["computerLayerKeys"]
+      state: syndie_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: PointLight
+    radius: 1.5
+    energy: 4.0
+    color: "#f71713"
+  - type: AccessReader
+    access: [[ "SyndicateAgent" ]]    
   - type: UserInterface
     interfaces:
       enum.StoreUiKey.Key:
@@ -982,7 +1100,8 @@
     key: enum.StoreUiKey.Key
   - type: Store
     balance:
-      ResearchBottleBase: 50
-      ResearchBottleStandart: 50
-      ResearchBottleAdvanced: 50
-      ResearchBottleElite: 50
+      ResearchBottleBase: 0
+      ResearchBottleStandart: 0
+      ResearchBottleAdvanced: 0
+      ResearchBottleElite: 0
+

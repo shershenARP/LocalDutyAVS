@@ -4,8 +4,8 @@ meta:
   engineVersion: 268.0.0
   forkId: ""
   forkVersion: ""
-  time: 05/21/2026 06:24:51
-  entityCount: 3342
+  time: 05/30/2026 14:54:15
+  entityCount: 3355
 maps:
 - 1
 grids:
@@ -1315,6 +1315,27 @@ entities:
     - type: Transform
       pos: -12.5,31.5
       parent: 2
+- proto: ADTChairWhite
+  entities:
+  - uid: 3353
+    components:
+    - type: Transform
+      pos: 2.5,16.5
+      parent: 2
+  - uid: 3354
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 2.5,14.5
+      parent: 2
+- proto: ADTCoffeeMachineBluespace
+  entities:
+  - uid: 3355
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 2.5,15.5
+      parent: 2
 - proto: ADTCoffeeMachineBotanic
   entities:
   - uid: 2625
@@ -1621,7 +1642,7 @@ entities:
       pos: -16.5,13.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -11036.969
+      secondsUntilStateChange: -11233.278
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -2034,6 +2055,17 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -18.5,19.5
       parent: 2
+- proto: BaseUplinkRadioTest
+  entities:
+  - uid: 3344
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 10.5,9.5
+      parent: 2
+    - type: Physics
+      canCollide: False
+      bodyType: Static
 - proto: Bed
   entities:
   - uid: 100
@@ -7185,6 +7217,11 @@ entities:
     components:
     - type: Transform
       pos: -24.5,12.5
+      parent: 2
+  - uid: 3345
+    components:
+    - type: Transform
+      pos: 10.5,9.5
       parent: 2
 - proto: CableHV
   entities:
@@ -13306,6 +13343,13 @@ entities:
     - type: Transform
       pos: -28.630371,16.592937
       parent: 2
+- proto: OmnilatheSyndieFXX
+  entities:
+  - uid: 3343
+    components:
+    - type: Transform
+      pos: 12.5,11.5
+      parent: 2
 - proto: OperatingTable
   entities:
   - uid: 749
@@ -13317,6 +13361,26 @@ entities:
     components:
     - type: Transform
       pos: -27.5,16.5
+      parent: 2
+- proto: OreBag
+  entities:
+  - uid: 3349
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -9.321961,9.571363
+      parent: 2
+  - uid: 3350
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -7.0875864,9.415113
+      parent: 2
+  - uid: 3351
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -5.751649,9.540113
       parent: 2
 - proto: OreProcessorIndustrial
   entities:
@@ -13353,6 +13417,26 @@ entities:
     components:
     - type: Transform
       pos: 1.5,22.5
+      parent: 2
+- proto: Pickaxe
+  entities:
+  - uid: 3346
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -9.337586,9.805738
+      parent: 2
+  - uid: 3347
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -7.7125864,9.774488
+      parent: 2
+  - uid: 3348
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -5.5094614,9.829176
       parent: 2
 - proto: PlasmaCanister
   entities:
@@ -16070,6 +16154,12 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 2.5,21.5
+      parent: 2
+  - uid: 3352
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 2.5,15.5
       parent: 2
 - proto: TableReinforcedGlass
   entities:
