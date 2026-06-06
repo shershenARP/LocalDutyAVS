@@ -27,8 +27,8 @@
   supervisors: job-supervisors-CCC
   canBeAntag: false
   access:
-- ADTAccessCaptain
-- BlueShield
+  - ADTAccessCaptain #ADT-tweak - полный доступ ко всем станционным дверям, кроме ЦК и ОСЩ
+  - BlueShield
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
@@ -37,7 +37,7 @@
         - type: Necksnap
         - type: Combo
           availableMoves:
-            - actionsNeeds:
+            - actionsNeeds: 
                 - Grab
                 - Hit
               comboEvent:

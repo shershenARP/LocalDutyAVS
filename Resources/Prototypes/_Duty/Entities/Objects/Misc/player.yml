@@ -1926,6 +1926,13 @@
     path: "/Audio/_Duty/PlayerDK/Прочее/.battle.ogg"
 
 - type: dutyTrack
+  id: dpk_bf80177asdda32257a4
+  name: "Overdoze - Z-city"
+  category: "Прочее"
+  path:
+    path: "/Audio/_Duty/PlayerDK/Прочее/Fury-16 - Overdose Z-CITY OST.ogg"
+
+- type: dutyTrack
   id: dpk_8961178528cef7
   name: "A Complete And Utter Destruction Of The Sense - Reikgon boss wave"
   category: "Прочее"
