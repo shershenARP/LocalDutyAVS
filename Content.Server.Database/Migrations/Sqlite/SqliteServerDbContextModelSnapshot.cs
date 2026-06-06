@@ -968,6 +968,10 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("oocnotes");
 
+                    b.Property<string>("HealthPhrasesJson")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("health_phrases_json");
+
                     b.Property<int>("PreferenceId")
                         .HasColumnType("INTEGER")
                         .HasColumnName("preference_id");

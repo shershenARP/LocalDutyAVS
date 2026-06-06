@@ -27,19 +27,8 @@
   supervisors: job-supervisors-CCC
   canBeAntag: false
   access:
-    - Captain
-    - Command
-    - Brig
-    - Security
-    - Armory
-    - Maintenance
-    - Service
-    - External
-    - Research
-    - Medical
-    - Engineering
-    - Cargo
-    - BlueShield
+- ADTAccessCaptain
+- BlueShield
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
