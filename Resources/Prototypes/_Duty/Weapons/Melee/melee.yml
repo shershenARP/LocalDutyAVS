@@ -91,7 +91,7 @@
   suffix: Duty, Самодел
   components:
   - type: Sprite
-    sprite: _Duty/Objects/Weapons/Melee/metal_club.rsi
+    sprite: _Duty/Weapons/Melee/bebrabat.rsi
     state: icon
   - type: Item
     size: Normal
