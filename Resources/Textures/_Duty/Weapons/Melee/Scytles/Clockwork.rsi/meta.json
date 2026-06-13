@@ -8,32 +8,15 @@
   },
   "states": [
     {
-<<<<<<< HEAD
-=======
       "name": "icon"
     },
     {
->>>>>>> b6acbbd966a3be28d19dd110578d873e82a23de6
       "name": "inhand-left",
       "directions": 4
     },
     {
       "name": "inhand-right",
       "directions": 4
-<<<<<<< HEAD
-    },
-    {
-      "name": "inhand-left-folded",
-      "directions": 4
-    },
-    {
-      "name": "inhand-right-folded",
-      "directions": 4
     }
   ]
 }
-=======
-    }
-  ]
-}
->>>>>>> b6acbbd966a3be28d19dd110578d873e82a23de6
