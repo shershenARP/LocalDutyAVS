@@ -3,7 +3,7 @@
   parent: BaseItem
   id: ArtifactScytle
   description: Anime
-  suffix: Duty, derbin
+  suffix: Duty, derbin, коса
   components:
   - type: ItemToggle
     soundFailToActivate:
@@ -42,45 +42,37 @@
         Slash: 15
         Structural: 15
   - type: MeleeWeapon
-    animationRotation: -40
-    wideAnimationRotation: -270
-    range: 2.5 
+    range: 2.5
     animation: WeaponArcSlash
-    wideAnimation: WeaponArcDisarm
     attackRate: 1
     damage:
       types:
-        Blunt: 10
-  - type: Item
-    size: Normal
-    sprite: _Duty/Weapons/Melee/Scytles/ArtifactScytleParts.rsi
-    layers:
-    - state: inhand-left
-      visible: false
-      map: ["foldedLayer"]
-    - state: inhand-right
-      visible: false
-      map: ["foldedLayer"]
+        Blunt: 5
   - type: UseDelay
     delay: 3.0
-  - type: Appearance
   - type: Reflect
-    reflectProb: 0.7
+    reflectProb: 0.5
     reflects:
       - Energy
   - type: Tool
     qualities:
     - Slicing
+
   - type: Sprite
     sprite: _Duty/Weapons/Melee/Scytles/ArtifactScytle.rsi
+    scale: 0.7,0.7
     layers:
     - state: folded
       map: ["unfoldedLayer"]
     - state: unfolded
       map: ["foldedLayer"]
       visible: false
+
+  - type: Item
+    size: Large
+    sprite: _Duty/Weapons/Melee/Scytles/ArtifactScytleParts.rsi
   - type: ToggleableVisuals
-    spriteLayer: foldedLayer
+    spriteLayer: unfolded
     inhandVisuals:
       left:
       - state: inhand-left
@@ -95,3 +87,4 @@
         foldedLayer:
           True: {visible: true}
           False: {visible: false}
+  - type: Appearance

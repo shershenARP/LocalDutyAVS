@@ -3,7 +3,7 @@
   parent: BaseItem
   id: ClockworkScytle
   description: For the sake of RaTwar!
-  suffix: "[ Duty]"
+  suffix: Duty
   components:
   - type: MeleeWeapon
     wideAnimationRotation: -135
@@ -38,10 +38,8 @@
         restitution: 0.3
         friction: 0.2
   - type: BoomerangItem
-  returnSpeed: 25
-  returnDelay: 0.6
-  damageRate: 3
-  spinStrength: -1700
-  contactDamage:
-    types:
-      Slash: 4
+    returnSpeed: 25
+    returnDelay: 0.6
+    spinStrength: -2000
+    flightSound:
+      path: /Audio/_Duty/Weapons/Melee/Scytles/ClockworkScytleFlight.ogg
