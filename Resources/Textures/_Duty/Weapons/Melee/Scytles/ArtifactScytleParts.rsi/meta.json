@@ -15,10 +15,24 @@
       "name": "inhand-right",
       "directions": 4
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     }
   ]
 }
+=======
+    },
+    {
+      "name": "inhand-left-folded",
+      "directions": 4
+    },
+    {
+      "name": "inhand-right-folded",
+      "directions": 4
+    }
+  ]
+}
+>>>>>>> b6acbbd966a3be28d19dd110578d873e82a23de6
 =======
     },
     {
