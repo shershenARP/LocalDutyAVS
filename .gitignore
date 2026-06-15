@@ -314,3 +314,8 @@ Resources/MapImages
 
 # Direnv stuff
 .direnv/
+
+# bd
+.db
+.sqlite
+.dbsq
