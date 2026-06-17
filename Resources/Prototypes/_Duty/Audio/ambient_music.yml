@@ -226,9 +226,6 @@
   combatLowTracks:
     - !type:SoundPathSpecifier
       path: /Audio/_Duty/AdminMusic/Z-City SoundTrack - Pharmacia (Fury-13).ogg
-    - !type:SoundPathSpecifier
-      path: /Audio/_Duty/AdminMusic/Creo - Flow.ogg
-
   # Критическое состояние (лежит без сознания)
   tracksMobCritical:
     - sound:
