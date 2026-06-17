@@ -69,30 +69,6 @@ public sealed class DutyCCVars
     public static readonly CVarDef<float> CritAudioDuckFadeSeconds =
         CVarDef.Create("duty.crit_audio_duck_fade_seconds", 1.5f, CVar.ARCHIVE | CVar.CLIENTONLY);
 
-    /// <summary>
-    /// Секретный API-ключ OpenRouter для NPC-бармена.
-    /// </summary>
-    public static readonly CVarDef<string> BarmanOpenRouterApiKey =
-        CVarDef.Create("duty.barman_openrouter_api_key", string.Empty, CVar.SERVERONLY);
-
-    /// <summary>
-    /// Включена ли долговременная память NPC-бармена.
-    /// </summary>
-    public static readonly CVarDef<bool> BarmanMemoryEnabled =
-        CVarDef.Create("duty.barman_memory_enabled", true, CVar.SERVERONLY);
-
-    /// <summary>
-    /// Путь до sqlite-файла памяти Билли.
-    /// </summary>
-    public static readonly CVarDef<string> BarmanMemoryDbPath =
-        CVarDef.Create("duty.barman_memory_db_path", "Data/barman_memory.db", CVar.SERVERONLY);
-
-    /// <summary>
-    /// Разрешены ли голоса +1/-1 для ответов Билли.
-    /// </summary>
-    public static readonly CVarDef<bool> BarmanFeedbackEnabled =
-        CVarDef.Create("duty.barman_feedback_enabled", true, CVar.SERVERONLY);
-
     // ── Health Phrases ────────────────────────────────────────────────────────
 
     /// <summary>
