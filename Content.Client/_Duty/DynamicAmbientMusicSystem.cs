@@ -56,6 +56,11 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
     private bool _critCrossfadeStarted;
     private bool _critPlaying;
 
+    private EntityUid? _critEnterStream;
+    private TimeSpan _critEnterReadyTime = TimeSpan.Zero;
+    private static readonly TimeSpan CritEnterCooldown = TimeSpan.FromMinutes(2);
+    private const float CritEnterFadeOutDuration = 0.5f;
+
     private TimeSpan _nextTrackTime = TimeSpan.Zero;
     private bool _trackPlaying;
     private bool _waitingForStateTransition;
@@ -142,6 +147,12 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         _critStreamNext = null;
         _critDuck = 0f;
         _currentLevel = null;
+        if (_critEnterStream != null)
+        {
+            _audio.Stop(_critEnterStream);
+            _critEnterStream = null;
+        }
+        _critEnterReadyTime = TimeSpan.Zero;
         UpdateMasterGain(force: true);
     }
 
@@ -215,6 +226,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
                 _critPlaying = false;
                 _critCrossfadeStarted = false;
                 _critStreamNext = null;
+                PlayCritEnterSound();
             }
             _lastMobState = mobState;
             _wasInCombat = false;
@@ -237,6 +249,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
             _critCrossfadeStarted = false;
             _trackPlaying = false;
             _nextTrackTime = TimeSpan.Zero;
+            StopCritEnterSound();
         }
 
         UpdateCritAudioDuck(frameTime, inCrit: false);
@@ -467,11 +480,37 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
     private void PlayDeathSound()
     {
         var proto = GetProto();
-        if (proto?.DeathSound == null || GetVolumeLinear(DutyAmbientMusicLevel.Death) <= 0f)
+        if (proto == null || proto.DeathSounds.Count == 0 || GetVolumeLinear(DutyAmbientMusicLevel.Death) <= 0f)
             return;
 
-        _audio.PlayGlobal(proto.DeathSound, Filter.Local(), false,
+        var sound = _random.Pick(proto.DeathSounds);
+        _audio.PlayGlobal(sound, Filter.Local(), false,
             AudioParams.Default.WithVolume(GetVolumeDb(DutyAmbientMusicLevel.Death)));
+    }
+
+    private void PlayCritEnterSound()
+    {
+        var proto = GetProto();
+        if (proto == null || proto.CritEnterSounds.Count == 0 || GetVolumeLinear(DutyAmbientMusicLevel.CritEnter) <= 0f)
+            return;
+
+        if (_timing.CurTime < _critEnterReadyTime)
+            return;
+
+        _critEnterReadyTime = _timing.CurTime + CritEnterCooldown;
+
+        var sound = _random.Pick(proto.CritEnterSounds);
+        _critEnterStream = _audio.PlayGlobal(sound, Filter.Local(), false,
+            AudioParams.Default.WithVolume(GetVolumeDb(DutyAmbientMusicLevel.CritEnter)))?.Entity;
+    }
+
+    private void StopCritEnterSound()
+    {
+        if (_critEnterStream == null)
+            return;
+
+        _contentAudio.FadeOut(_critEnterStream, duration: CritEnterFadeOutDuration);
+        _critEnterStream = null;
     }
 
     private void UpdateHealthMusic(EntityUid player)
@@ -686,7 +725,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         {
             proto.TracksVeryGood, proto.TracksGood, proto.TracksMedium,
             proto.TracksBelowMedium, proto.TracksAwful, proto.TracksCritical,
-            proto.CombatTracks, proto.CombatLowTracks
+            proto.CombatTracks, proto.CombatLowTracks, proto.DeathSounds, proto.CritEnterSounds
         };
 
         foreach (var list in allLists)
@@ -714,14 +753,6 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
             }
         }
 
-        if (proto.DeathSound is SoundPathSpecifier deathPath)
-        {
-            try { _resourceCache.GetResource<AudioResource>(deathPath.Path); }
-            catch (Exception e)
-            {
-                Logger.Warning($"[DynamicAmbientMusic] Не удалось предзагрузить звук смерти '{deathPath.Path}': {e.Message}");
-            }
-        }
     }
 
     private MobState GetMobState(EntityUid player)

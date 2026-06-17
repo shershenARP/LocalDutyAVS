@@ -57,6 +57,10 @@ public sealed class DutyCCVars
     public static readonly CVarDef<float> DynamicAmbientMusicVolumeDeath =
         CVarDef.Create("duty.ambient_music_volume_death", 1f, CVar.ARCHIVE | CVar.CLIENTONLY);
 
+    /// <summary>Громкость звука входа в крит (CritEnterSound). Громче остальных по умолчанию.</summary>
+    public static readonly CVarDef<float> DynamicAmbientMusicVolumeCritEnter =
+        CVarDef.Create("duty.ambient_music_volume_crit_enter", 1.4f, CVar.ARCHIVE | CVar.CLIENTONLY);
+
     /// <summary>Доп. усиление critmode-музыки (dB), поверх boost из yml.</summary>
     public static readonly CVarDef<float> DynamicAmbientMusicCritExtraBoostDb =
         CVarDef.Create("duty.ambient_music_crit_extra_boost_db", 2.5f, CVar.ARCHIVE | CVar.CLIENTONLY);

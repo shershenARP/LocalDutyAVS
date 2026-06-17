@@ -321,3 +321,4 @@ Resources/MapImages
 .dbsq
 
 # duty
+fix_migration.py

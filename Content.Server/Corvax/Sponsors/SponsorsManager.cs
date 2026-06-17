@@ -138,19 +138,18 @@ public sealed class SponsorsManager
         spawnEquipment = null;
 
         // // ТЕСТОВЫЕ ДАННЫЕ - НАЧАЛО (удалить в мастере) (ИМИТАЦИЯ СПОНСОРКИ) // - DutyTest
-         var sponsorData = new SponsorInfo
-         {
-             CharacterName = "karp335",
-             Tier = 4,
-             OOCColor = "#abcdef",
-             HavePriorityJoin = true,
-             ExtraSlots = 2,
-             AllowedMarkings = new[] { "marking1", "marking2" },
-             ExpireDate = DateTime.Now.AddDays(30),
-             AllowJob = true
-         };
-         // ТЕСТОВЫЕ ДАННЫЕ - КОНЕЦ
-
+        // var sponsorData = new SponsorInfo
+        // {
+        //     CharacterName = "karp335",
+        //     Tier = 4,
+        //     OOCColor = "#abcdef",
+        //     HavePriorityJoin = true,
+        //     ExtraSlots = 2,
+        //     AllowedMarkings = new[] { "marking1", "marking2" },
+        //     ExpireDate = DateTime.Now.AddDays(30),
+        //     AllowJob = true
+        // };
+        // ТЕСТОВЫЕ ДАННЫЕ - КОНЕЦ
         // Получаем sponsorData юсера
         if (!TryGetInfo(userId, out var sponsorData))
         {

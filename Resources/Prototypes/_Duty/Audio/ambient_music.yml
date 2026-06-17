@@ -131,7 +131,7 @@
     - !type:SoundPathSpecifier
       path: /Audio/_Duty/Ambient/CasualtiesUnknown/DEEP.ogg
     - !type:SoundPathSpecifier
-      path: /Audio/_Duty/Ambient/CasualtiesUnknown/FammiliarFace.ogg
+      path: /Audio/_Duty/Ambient/CasualtiesUnknown/FamiliarFace.ogg
     - !type:SoundPathSpecifier
       path: /Audio/_Duty/Ambient/CasualtiesUnknown/OddPlace.ogg
     - !type:SoundPathSpecifier
@@ -313,7 +313,7 @@
         path: /Audio/_Duty/Ambient/CritMode/Dying.ogg
       duration: 19
     - sound:
-        path: /Audio/_Duty/Ambient/CritMode/Isthistheend.ogg
+        path: /Audio/_Duty/Ambient/CritMode/isthistheend.ogg
       duration: 349
     - sound:
         path: /Audio/_Duty/Ambient/CritMode/Lobotomy music _ ZCITY(1).ogg
@@ -334,14 +334,20 @@
         path: /Audio/_Duty/Ambient/CasualtiesUnknown/DrawYourLastBreath1.ogg
       duration: 19
     - sound: 
-        path: /Audio/_Duty/Ambient/CasualtiesUnknown/istheend.ogg
+        path: /Audio/_Duty/Ambient/CasualtiesUnknown/isthistheend.ogg
       duration: 349
 
-  # Звук смерти (одиночный)
-  deathSound: !type:SoundPathSpecifier
-    path: /Audio/_Duty/Ambient/Death.ogg
-  deathSound: !type:SoundPathSpecifier
-    path: /Audio/_Duty/Ambient/DrawYourLastBreath2.ogg
+  # проигрывается при смерти
+  deathSounds:
+    - !type:SoundPathSpecifier
+      path: /Audio/_Duty/Ambient/Death.ogg
+    - !type:SoundPathSpecifier
+      path: /Audio/_Duty/Ambient/DrawYourLastBreath2.ogg
+
+  # Звуки входа в критическое состояние
+  critEnterSounds:
+    - !type:SoundPathSpecifier
+      path: /Audio/_Duty/Ambient/CasualtiesUnknown/lobotomy.ogg
 
   # Настройки и все такое
   calmMinInterval: 5
