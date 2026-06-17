@@ -8,7 +8,7 @@ public sealed partial class CCVars
     ///     Link to Discord server to show in the launcher.
     /// </summary>
     public static readonly CVarDef<string> InfoLinksDiscord =
-        CVarDef.Create("infolinks.discord", "", CVar.SERVER | CVar.REPLICATED);
+        CVarDef.Create("infolinks.discord", "https://discord.gg/nPrxW7Yb6b", CVar.SERVER | CVar.REPLICATED); // РЕКЛАМА РЕКЛАМА
 
     /// <summary>
     ///     Link to website to show in the launcher.
@@ -26,7 +26,7 @@ public sealed partial class CCVars
     ///     Link to website to show in the launcher.
     /// </summary>
     public static readonly CVarDef<string> InfoLinksWebsite =
-        CVarDef.Create("infolinks.website", "https://boosty.to/adventuretime", CVar.SERVER | CVar.REPLICATED); // ADT-Tweak
+        CVarDef.Create("infolinks.website", "https://boosty.to/localduty", CVar.SERVER | CVar.REPLICATED); // ХА ВЫКУСИ АДТ ТЕПЕРЬ ТУТ МОЯ ССЫЛКА
 
     /// <summary>
     ///     Link to wiki to show in the launcher.
@@ -50,7 +50,7 @@ public sealed partial class CCVars
     ///     Link to site handling ban appeals. Shown in ban disconnect messages.
     /// </summary>
     public static readonly CVarDef<string> InfoLinksAppeal =
-        CVarDef.Create("infolinks.appeal", "https://discord.com/channels/901772674865455115/1245787985891561544", CVar.SERVER | CVar.REPLICATED); //ADT-Tweak: Ссылка на обжалование
+        CVarDef.Create("infolinks.appeal", "https://discord.gg/nPrxW7Yb6b", CVar.SERVER | CVar.REPLICATED); //ДА ПОХУЙ И СЮДА ВЬЕБУ ССЫЛКУ НА ЛАКАЛКУ
 
     /// <summary>
     ///     Link to Telegram channel to show in the launcher.
