@@ -43,6 +43,8 @@ public sealed class HalberdChargeSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
 
+    private readonly HashSet<EntityUid> _chargeIntersecting = new();
+
     public override void Initialize()
     {
         base.Initialize();
@@ -177,7 +179,7 @@ public sealed class HalberdChargeSystem : EntitySystem
 
         // Звук и крик старта
         _audio.PlayPvs(new SoundPathSpecifier("/Audio/Voice/Human/malescream_2.ogg"), user);
-        _chat.TrySendInGameICMessage(user, "АААААА!!!", InGameICChatType.Speak, false);
+        _chat.TrySendInGameICMessage(user, Loc.GetString("halberd-charge-cry-start"), InGameICChatType.Speak, false);
 
         // Резист
         var resist = EnsureComp<HalberdChargeResistComponent>(user);
@@ -231,10 +233,10 @@ public sealed class HalberdChargeSystem : EntitySystem
 
         // Проверяем коллизии — только Hard тела (жидкости, декали игнорируются)
         var box = new Box2(userPos - new Vector2(0.45f, 0.45f), userPos + new Vector2(0.45f, 0.45f));
-        var intersecting = new HashSet<EntityUid>();
-        _lookup.GetEntitiesIntersecting(Transform(user).MapID, box, intersecting, LookupFlags.Dynamic | LookupFlags.Static);
+        _chargeIntersecting.Clear();
+        _lookup.GetEntitiesIntersecting(Transform(user).MapID, box, _chargeIntersecting, LookupFlags.Dynamic | LookupFlags.Static);
 
-        foreach (var target in intersecting)
+        foreach (var target in _chargeIntersecting)
         {
             if (target == user || target == halberdUid)
                 continue;
@@ -274,7 +276,7 @@ public sealed class HalberdChargeSystem : EntitySystem
         _damageable.TryChangeDamage(target, damage, origin: user);
 
         _audio.PlayPvs(new SoundPathSpecifier("/Audio/Weapons/slash.ogg"), user);
-        _chat.TrySendInGameICMessage(user, "НААА!!!", InGameICChatType.Speak, false);
+        _chat.TrySendInGameICMessage(user, Loc.GetString("halberd-charge-cry-hit"), InGameICChatType.Speak, false);
     }
 
     // ── Завершение рывка ──────────────────────────────────────
@@ -296,7 +298,7 @@ public sealed class HalberdChargeSystem : EntitySystem
         {
             case ChargeEndReason.Wall:
                 _audio.PlayPvs(new SoundPathSpecifier("/Audio/Effects/metal_slam1.ogg"), user);
-                var cry = _random.Pick(new[] { "СУКА!!", "БЛЯТЬ!!!" });
+                var cry = Loc.GetString(_random.Pick(new[] { "halberd-charge-cry-wall-1", "halberd-charge-cry-wall-2" }));
                 _chat.TrySendInGameICMessage(user, cry, InGameICChatType.Speak, false);
                 break;
         }

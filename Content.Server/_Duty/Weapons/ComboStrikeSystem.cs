@@ -1,3 +1,4 @@
+using Content.Shared._Duty.Bracelets;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
@@ -6,7 +7,7 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 
-namespace Content.Shared.Weapons.Melee.ComboStrike;
+namespace Content.Server._Duty.Weapons;
 
 public sealed class ComboStrikeSystem : EntitySystem
 {

@@ -81,6 +81,12 @@ public sealed partial class UnknownSubstanceFlaconComponent : Component
     public EntProtoId ClosedAnimation = "WeaponArcPunch";
 
     [DataField]
+    public EntProtoId ClosedWideAnimation = "WeaponArcPunch";
+
+    [DataField]
+    public float ClosedWideAnimationRotation;
+
+    [DataField]
     public DamageSpecifier ClosedDamage = new()
     {
         DamageDict = new()

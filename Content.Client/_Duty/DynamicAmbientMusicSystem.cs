@@ -39,8 +39,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly IResourceCache _resourceCache = default!;
     [Dependency] private readonly IAudioManager _audioManager = default!;
-
-    private ContentAudioSystem _contentAudio = default!;
+    [Dependency] private readonly ContentAudioSystem _contentAudio = default!;
 
     private bool _wasInCombat;
     private bool _wasInCombatLow;
@@ -77,22 +76,31 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
 
     private const string PrototypeId = "DutyAmbientMusic";
 
+    private Action<float> _onMasterVolumeChanged = default!;
+    private Action<float> _onAnyVolumeChanged = default!;
+    private readonly Dictionary<DutyAmbientMusicLevel, Action<float>> _onLevelVolumeChanged = new();
+
     public override void Initialize()
     {
         base.Initialize();
 
-        _contentAudio = EntityManager.System<ContentAudioSystem>();
+        _onMasterVolumeChanged = _ => UpdateMasterGain();
+        _onAnyVolumeChanged = _ => OnAnyVolumeChanged();
 
         _config.OnValueChanged(DutyCCVars.DynamicAmbientMusicEnabled, OnEnabledChanged, true);
         _config.OnValueChanged(DutyCCVars.DynamicAmbientMusicPeacefulDisabled, OnPeacefulDisabledChanged, true);
         _config.OnValueChanged(DutyCCVars.DynamicAmbientMusicCombatDisabled, OnCombatDisabledChanged, true);
-        _config.OnValueChanged(CCVars.AudioMasterVolume, _ => UpdateMasterGain(), true);
+        _config.OnValueChanged(CCVars.AudioMasterVolume, _onMasterVolumeChanged, true);
 
         foreach (DutyAmbientMusicLevel level in Enum.GetValues<DutyAmbientMusicLevel>())
-            _config.OnValueChanged(DutyAmbientMusicCVar.GetVolumeCVar(level), _ => OnAnyVolumeChanged(), true);
+        {
+            Action<float> handler = _ => OnAnyVolumeChanged();
+            _onLevelVolumeChanged[level] = handler;
+            _config.OnValueChanged(DutyAmbientMusicCVar.GetVolumeCVar(level), handler, true);
+        }
 
-        _config.OnValueChanged(DutyCCVars.DynamicAmbientMusicVolume, _ => OnAnyVolumeChanged(), true);
-        _config.OnValueChanged(DutyCCVars.DynamicAmbientMusicCritExtraBoostDb, _ => OnAnyVolumeChanged(), true);
+        _config.OnValueChanged(DutyCCVars.DynamicAmbientMusicVolume, _onAnyVolumeChanged, true);
+        _config.OnValueChanged(DutyCCVars.DynamicAmbientMusicCritExtraBoostDb, _onAnyVolumeChanged, true);
 
         SubscribeNetworkEvent<RoundRestartCleanupEvent>(OnRoundRestart);
 
@@ -104,8 +112,24 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         base.Shutdown();
         UnsubscribeConfig();
         StopCurrent(immediate: true);
+        DeleteCritReverbChain();
         _critDuck = 0f;
         UpdateMasterGain(force: true);
+    }
+
+    private void DeleteCritReverbChain()
+    {
+        if (_critAuxUid != null)
+        {
+            EntityManager.DeleteEntity(_critAuxUid.Value);
+            _critAuxUid = null;
+        }
+
+        if (_critEffectUid != null)
+        {
+            EntityManager.DeleteEntity(_critEffectUid.Value);
+            _critEffectUid = null;
+        }
     }
 
     private void UnsubscribeConfig()
@@ -113,12 +137,14 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         _config.UnsubValueChanged(DutyCCVars.DynamicAmbientMusicEnabled, OnEnabledChanged);
         _config.UnsubValueChanged(DutyCCVars.DynamicAmbientMusicPeacefulDisabled, OnPeacefulDisabledChanged);
         _config.UnsubValueChanged(DutyCCVars.DynamicAmbientMusicCombatDisabled, OnCombatDisabledChanged);
-        _config.UnsubValueChanged(CCVars.AudioMasterVolume, _ => UpdateMasterGain());
-        _config.UnsubValueChanged(DutyCCVars.DynamicAmbientMusicVolume, _ => OnAnyVolumeChanged());
-        _config.UnsubValueChanged(DutyCCVars.DynamicAmbientMusicCritExtraBoostDb, _ => OnAnyVolumeChanged());
+        _config.UnsubValueChanged(CCVars.AudioMasterVolume, _onMasterVolumeChanged);
+        _config.UnsubValueChanged(DutyCCVars.DynamicAmbientMusicVolume, _onAnyVolumeChanged);
+        _config.UnsubValueChanged(DutyCCVars.DynamicAmbientMusicCritExtraBoostDb, _onAnyVolumeChanged);
 
-        foreach (DutyAmbientMusicLevel level in Enum.GetValues<DutyAmbientMusicLevel>())
-            _config.UnsubValueChanged(DutyAmbientMusicCVar.GetVolumeCVar(level), _ => OnAnyVolumeChanged());
+        foreach (var (level, handler) in _onLevelVolumeChanged)
+            _config.UnsubValueChanged(DutyAmbientMusicCVar.GetVolumeCVar(level), handler);
+
+        _onLevelVolumeChanged.Clear();
     }
 
     private void OnEnabledChanged(bool value)
@@ -153,6 +179,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
             _critEnterStream = null;
         }
         _critEnterReadyTime = TimeSpan.Zero;
+        DeleteCritReverbChain();
         UpdateMasterGain(force: true);
     }
 

@@ -32,6 +32,7 @@ public sealed class UnknownSubstanceFlaconSystem : EntitySystem
 
         SubscribeLocalEvent<UnknownSubstanceFlaconComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<UnknownSubstanceFlaconComponent, ItemToggledEvent>(OnItemToggled);
+        SubscribeLocalEvent<UnknownSubstanceFlaconComponent, AttemptMeleeEvent>(OnAttemptMelee);
         SubscribeLocalEvent<UnknownSubstanceFlaconComponent, MeleeHitEvent>(OnMeleeHit);
     }
 
@@ -56,11 +57,8 @@ public sealed class UnknownSubstanceFlaconSystem : EntitySystem
             ApplyClosed(ent);
     }
 
-    private void OnMeleeHit(Entity<UnknownSubstanceFlaconComponent> ent, ref MeleeHitEvent args)
+    private void OnAttemptMelee(Entity<UnknownSubstanceFlaconComponent> ent, ref AttemptMeleeEvent args)
     {
-        if (!args.IsHit || args.HitEntities.Count == 0)
-            return;
-
         if (!TryComp<ItemToggleComponent>(ent, out var toggle) || !toggle.Activated)
             return;
 
@@ -72,6 +70,21 @@ public sealed class UnknownSubstanceFlaconSystem : EntitySystem
             return;
 
         ApplyManifestation(ent, manifestation, melee);
+        UpdateDescription(ent, manifestation);
+        Dirty(ent);
+    }
+
+    private void OnMeleeHit(Entity<UnknownSubstanceFlaconComponent> ent, ref MeleeHitEvent args)
+    {
+        if (!args.IsHit || args.HitEntities.Count == 0)
+            return;
+
+        if (!TryComp<ItemToggleComponent>(ent, out var toggle) || !toggle.Activated)
+            return;
+
+        var manifestation = CurrentManifestation(ent.Comp);
+        if (manifestation == null)
+            return;
 
         args.BonusDamage += new DamageSpecifier(manifestation.Damage) - args.BaseDamage;
 
@@ -214,7 +227,8 @@ public sealed class UnknownSubstanceFlaconSystem : EntitySystem
             melee.Range = ent.Comp.ClosedRange;
             melee.Angle = Angle.FromDegrees(ent.Comp.ClosedAngle);
             melee.Animation = ent.Comp.ClosedAnimation;
-            melee.WideAnimation = ent.Comp.ClosedAnimation;
+            melee.WideAnimation = ent.Comp.ClosedWideAnimation;
+            melee.WideAnimationRotation = Angle.FromDegrees(ent.Comp.ClosedWideAnimationRotation);
             Dirty(ent.Owner, melee);
         }
 

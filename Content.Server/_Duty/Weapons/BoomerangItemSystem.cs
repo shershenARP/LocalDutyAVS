@@ -113,6 +113,9 @@ public sealed class BoomerangItemSystem : EntitySystem
 
                 if (delta.Length() < 0.35f)
                 {
+                    if (TryComp<ThrownItemComponent>(uid, out var thrownItem))
+                        _thrownItem.StopThrow(uid, thrownItem);
+
                     _hands.TryPickupAnyHand(comp.Thrower.Value, uid, checkActionBlocker: false, animate: false);
                     ResetBoomerang(uid, comp);
                     continue;
@@ -152,7 +155,10 @@ public sealed class BoomerangItemSystem : EntitySystem
         comp.IsReturning = false;
 
         if (TryComp<PhysicsComponent>(uid, out var body))
+        {
             _physics.SetAngularVelocity(uid, 0f, body: body);
+            _physics.SetLinearVelocity(uid, System.Numerics.Vector2.Zero, body: body);
+        }
 
         if (comp.FlightSoundEntity != null)
         {
