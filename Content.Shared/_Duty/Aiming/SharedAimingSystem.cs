@@ -85,6 +85,7 @@ public sealed class SharedAimingSystem : EntitySystem
             {
                 _popup.PopupClient(Loc.GetString("aiming-too-close"), user, user);
                 _nextTooCloseWarning[user] = _timing.CurTime + TooCloseWarningCooldown;
+                PruneTooCloseWarnings();
             }
 
             return;
@@ -101,6 +102,27 @@ public sealed class SharedAimingSystem : EntitySystem
         EnsureSafeSpreadAngles(gunUid);
 
         _popup.PopupClient(Loc.GetString("aiming-start"), user, user);
+    }
+
+    /// <summary>
+    /// Чистит словарь кулдаунов предупреждения "слишком близко" от просроченных/мёртвых записей.
+    /// Без этого ключи-сущности (мобы) копятся бесконечно за время жизни сервера (утечка памяти).
+    /// </summary>
+    private void PruneTooCloseWarnings()
+    {
+        var now = _timing.CurTime;
+        if (_nextTooCloseWarning.Count < 64)
+            return;
+
+        var stale = new List<EntityUid>();
+        foreach (var (uid, time) in _nextTooCloseWarning)
+        {
+            if (now >= time || !Exists(uid))
+                stale.Add(uid);
+        }
+
+        foreach (var uid in stale)
+            _nextTooCloseWarning.Remove(uid);
     }
 
     private void OnStopAimRequest(RequestStopAimEvent msg, EntitySessionEventArgs args)
@@ -177,6 +199,10 @@ public sealed class SharedAimingSystem : EntitySystem
         args.MaxAngle = new Angle(maxAngle);
         args.AngleIncrease = new Angle(Math.Max(args.AngleIncrease.Theta * ent.Comp.AimSpreadMultiplier, 0));
         args.CameraRecoilScalar *= ent.Comp.AimCameraRecoilScalar;
+
+        // Прицеливание лёжа снижает скорострельность (стрельба с упора — точнее, но реже).
+        if (aiming.IsProne)
+            args.FireRate *= ent.Comp.ProneFireRateMultiplier;
     }
 
     /// <summary>
@@ -221,7 +247,11 @@ public sealed class SharedAimingSystem : EntitySystem
         if (!TryComp<AimableComponent>(ent.Comp.Gun, out var aimable))
             return;
 
-        args.ModifySpeed(aimable.WalkSpeedModifier, aimable.SprintSpeedModifier);
+        // Лёжа прицеливание полностью обездвиживает (стрельба с упора). Стоя — обычное замедление.
+        if (ent.Comp.IsProne)
+            args.ModifySpeed(0f, 0f);
+        else
+            args.ModifySpeed(aimable.WalkSpeedModifier, aimable.SprintSpeedModifier);
     }
 
     private void OnAimingDamaged(Entity<AimingComponent> ent, ref DamageChangedEvent args)

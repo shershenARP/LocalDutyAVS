@@ -223,6 +223,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
             if (_lastMobState != MobState.Dead)
             {
                 StopCurrent(immediate: false);
+                StopCritStreams();
                 PlayDeathSound();
             }
             _lastMobState = mobState;
@@ -266,17 +267,9 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         if (_lastMobState == MobState.Critical)
         {
             StopCurrent(immediate: false);
-            if (_critStreamNext != null)
-            {
-                ClearCritReverb(_critStreamNext);
-                _audio.Stop(_critStreamNext);
-                _critStreamNext = null;
-            }
-            _critPlaying = false;
-            _critCrossfadeStarted = false;
+            StopCritStreams();
             _trackPlaying = false;
             _nextTrackTime = TimeSpan.Zero;
-            StopCritEnterSound();
         }
 
         UpdateCritAudioDuck(frameTime, inCrit: false);
@@ -321,7 +314,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         {
             if (_currentStream != null)
             {
-                _contentAudio.FadeOut(_currentStream, duration: proto?.CombatFadeOutDuration ?? 1.5f);
+                SafeFadeOut(_currentStream, proto?.CombatFadeOutDuration ?? 1.5f);
                 _currentStream = null;
                 _currentType = DutyMusicType.None;
                 _currentLevel = null;
@@ -473,7 +466,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
             _critCrossfadeStarted = true;
 
             if (_currentStream != null)
-                _contentAudio.FadeOut(_currentStream, duration: (float)Math.Max(timeLeft, 0.5));
+                SafeFadeOut(_currentStream, (float)Math.Max(timeLeft, 0.5));
 
             var next = _random.Pick(proto.TracksMobCritical);
             _critStreamNext = _audio.PlayGlobal(next.Sound, Filter.Local(), false,
@@ -536,8 +529,27 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         if (_critEnterStream == null)
             return;
 
-        _contentAudio.FadeOut(_critEnterStream, duration: CritEnterFadeOutDuration);
+        SafeFadeOut(_critEnterStream, CritEnterFadeOutDuration);
         _critEnterStream = null;
+    }
+
+    /// <summary>
+    /// Полностью гасит крит-музыку (включая поток кроссфейда и звук входа) и сбрасывает флаги.
+    /// Вызывается при выходе из крита и при смерти — иначе при смерти посреди кроссфейда
+    /// второй крит-поток оставался играть "осиротевшим".
+    /// </summary>
+    private void StopCritStreams()
+    {
+        if (_critStreamNext != null)
+        {
+            ClearCritReverb(_critStreamNext);
+            _audio.Stop(_critStreamNext);
+            _critStreamNext = null;
+        }
+
+        _critPlaying = false;
+        _critCrossfadeStarted = false;
+        StopCritEnterSound();
     }
 
     private void UpdateHealthMusic(EntityUid player)
@@ -551,7 +563,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
             if (_currentStream != null)
             {
                 var proto = GetProto();
-                _contentAudio.FadeOut(_currentStream, duration: proto?.CalmFadeOutDuration ?? 3.5f);
+                SafeFadeOut(_currentStream, proto?.CalmFadeOutDuration ?? 3.5f);
                 _currentStream = null;
                 _currentType = DutyMusicType.None;
                 _currentLevel = null;
@@ -675,6 +687,19 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
         }
     }
 
+    /// <summary>
+    /// Безопасный фейд-аут: не дёргает <see cref="ContentAudioSystem.FadeOut"/> на уже исчезнувшем
+    /// потоке (иначе Resolve логирует ошибку "Can't resolve AudioComponent" со стектрейсом —
+    /// одноразовые звуки, например звук входа в крит, доигрывают и удаляются, а ссылка остаётся).
+    /// </summary>
+    private void SafeFadeOut(EntityUid? stream, float duration)
+    {
+        if (stream == null || !Exists(stream.Value) || !HasComp<AudioComponent>(stream.Value))
+            return;
+
+        _contentAudio.FadeOut(stream, duration: duration);
+    }
+
     private void StopCurrent(bool immediate = false)
     {
         if (_currentStream == null)
@@ -690,7 +715,7 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
             var duration = _currentType == DutyMusicType.Combat
                 ? proto?.CombatFadeOutDuration ?? 1.5f
                 : proto?.CalmFadeOutDuration ?? 3.5f;
-            _contentAudio.FadeOut(_currentStream, duration: duration);
+            SafeFadeOut(_currentStream, duration);
         }
 
         _currentStream = null;

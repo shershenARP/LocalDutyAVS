@@ -51,7 +51,7 @@ public sealed partial class LazarusComponent : Component
     /// (лечением из крита). Подобрана под музыку — персонаж поднимается на спаде.
     /// </summary>
     [DataField]
-    public TimeSpan ReviveDelay = TimeSpan.FromSeconds(3);
+    public TimeSpan ReviveDelay = TimeSpan.FromSeconds(5.5);
 
     /// <summary>Реагенты, вводимые в кровь при срабатывании (омнизин + эфедрин).</summary>
     [DataField]
@@ -60,6 +60,14 @@ public sealed partial class LazarusComponent : Component
         ["Omnizine"] = 10,
         ["Ephedrine"] = 15,
     };
+
+    /// <summary>
+    /// Цена воскрешения: до какой доли снижается максимальное здоровье после срабатывания
+    /// (0.9 = остаётся 90% макс. HP). Реализуется пропорциональным понижением порогов крита и
+    /// смерти. Применяется один раз за жизнь (повторные срабатывания не складываются).
+    /// </summary>
+    [DataField]
+    public float MaxHpPenaltyFraction = 0.9f;
 
     /// <summary>Прототип статус-эффекта замедления.</summary>
     [DataField]

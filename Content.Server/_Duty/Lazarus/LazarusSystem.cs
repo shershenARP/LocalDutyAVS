@@ -12,6 +12,7 @@ using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Popups;
 using Robust.Server.GameObjects;
@@ -35,6 +36,7 @@ public sealed class LazarusSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly BloodstreamSystem _bloodstream = default!;
+    [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
     [Dependency] private readonly MovementModStatusSystem _movementMod = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IConsoleHost _console = default!;
@@ -222,6 +224,7 @@ public sealed class LazarusSystem : EntitySystem
 
         HealToTarget(uid, damageable, critThreshold * lazarus.HealToCritFraction);
         InjectReagents(uid, lazarus);
+        ApplyMaxHpPenalty(uid, lazarus);
 
         _movementMod.TryAddMovementSpeedModDuration(
             uid,
@@ -259,6 +262,49 @@ public sealed class LazarusSystem : EntitySystem
             solution.AddReagent(reagent, quantity);
 
         _bloodstream.TryAddToChemicals(uid, solution);
+    }
+
+    /// <summary>
+    /// Цена воскрешения: снижает максимальное здоровье до <see cref="LazarusComponent.MaxHpPenaltyFraction"/>
+    /// от исходного, пропорционально понижая пороги крита и смерти. Применяется один раз за жизнь —
+    /// повторные срабатывания (через кулдаун) не складываются. Вешает <see cref="LazarusScarComponent"/>,
+    /// по которому сканер здоровья показывает соответствующую строку.
+    /// </summary>
+    private void ApplyMaxHpPenalty(EntityUid uid, LazarusComponent lazarus)
+    {
+        // Уже был штраф в этой жизни — не складываем.
+        if (HasComp<LazarusScarComponent>(uid))
+            return;
+
+        var fraction = Math.Clamp(lazarus.MaxHpPenaltyFraction, 0.1f, 1f);
+        if (fraction >= 1f)
+            return;
+
+        if (!TryComp<MobThresholdsComponent>(uid, out var thresholds))
+            return;
+
+        // Считываем текущие пороги до изменения (SetMobStateThreshold правит словарь).
+        FixedPoint2? crit = null;
+        FixedPoint2? dead = null;
+        foreach (var (threshold, state) in thresholds.Thresholds)
+        {
+            switch (state)
+            {
+                case MobState.Critical:
+                    crit = threshold;
+                    break;
+                case MobState.Dead:
+                    dead = threshold;
+                    break;
+            }
+        }
+
+        if (crit is { } critValue)
+            _mobThreshold.SetMobStateThreshold(uid, critValue * fraction, MobState.Critical, thresholds);
+        if (dead is { } deadValue)
+            _mobThreshold.SetMobStateThreshold(uid, deadValue * fraction, MobState.Dead, thresholds);
+
+        EnsureComp<LazarusScarComponent>(uid);
     }
 
     // ── Консольная команда для теста ───────────────────────────────────────────

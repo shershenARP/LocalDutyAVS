@@ -37,6 +37,13 @@ public sealed partial class AimableComponent : Component
     [DataField]
     public float AimCameraRecoilScalar = 0.6f;
 
+    /// <summary>
+    /// Множитель скорострельности во время прицеливания ЛЁЖА (0.8 = на 20% медленнее).
+    /// Стоя скорострельность не меняется. Баланс за устойчивую стрельбу с упора.
+    /// </summary>
+    [DataField]
+    public float ProneFireRateMultiplier = 0.8f;
+
     /// <summary>Минимальная дистанция от персонажа до точки прицеливания (в тайлах) — ближе прицеливание не активируется.</summary>
     [DataField]
     public float MinAimDistance = 3.5f;
@@ -46,4 +53,18 @@ public sealed partial class AimableComponent : Component
     /// </summary>
     [DataField]
     public TimeSpan PostProneAimImmobilizeDuration = TimeSpan.FromSeconds(2);
+
+    // ── Прошивание пуль при стрельбе лёжа ──────────────────────────────────────
+
+    /// <summary>Прошивает ли оружие цели при прицельной стрельбе лёжа.</summary>
+    [DataField]
+    public bool ProneAimPenetration = true;
+
+    /// <summary>Максимум живых целей при прошивании лёжа (включая первую).</summary>
+    [DataField]
+    public int ProneAimPenetrationTargets = 2;
+
+    /// <summary>Множитель урона второй и последующим целям при прошивании (0.35 = 35%).</summary>
+    [DataField]
+    public float ProneAimPenetrationFalloff = 0.35f;
 }
