@@ -350,6 +350,7 @@
       path: /Audio/_Duty/Ambient/CasualtiesUnknown/lobotomy.ogg
 
   # Настройки и все такое
+  volumeBoostDb: 2 # Общий буст громкости всей динамической музыки/эмбиента (dB)
   calmMinInterval: 5
   calmMaxInterval: 45
   calmFadeInDuration: 3.5

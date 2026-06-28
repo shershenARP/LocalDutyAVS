@@ -723,10 +723,14 @@ public sealed class DynamicAmbientMusicSystem : EntitySystem
     {
         var db = VolumeFromLinear(GetVolumeLinear(level));
 
+        var proto = GetProto();
+
+        // Общий буст ко всем категориям динамической музыки/эмбиента.
+        db += proto?.VolumeBoostDb ?? 0f;
+
         if (level != DutyAmbientMusicLevel.MobCritical)
             return db;
 
-        var proto = GetProto();
         db += proto?.MobCritVolumeBoost ?? 0f;
         db += _config.GetCVar(DutyCCVars.DynamicAmbientMusicCritExtraBoostDb);
         return db;

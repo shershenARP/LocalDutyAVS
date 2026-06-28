@@ -18,7 +18,7 @@
     animation: WeaponArcThrust
     wideAnimationRotation: 135
     swingLeft: true
-    attackRate: 0.75
+    attackRate: 0.6316 # Duty: КД между ударами увеличен на 0.25с (было 1.333с, стало 1.583с)
     range: 2
     damage:
       types:
