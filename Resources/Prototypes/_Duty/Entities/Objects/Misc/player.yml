@@ -463,6 +463,14 @@
     path: "/Audio/_Duty/PlayerDK/Persona/Persona 5 The Royal.ogg"
 
 - type: dutyTrack
+  id: dpk_6bc8fed5dc56asdfasdsafs5c
+  name: "Megalovania"
+  category: "Karp/Persona"
+  path:
+    path: "/Audio/_Duty/PlayerDK/Persona/megagandonia.ogg"
+
+
+- type: dutyTrack
   id: dpk_6bc8fed5dZZZZc56asdfasdf5c
   name: "Master Of Shadow (Persona 3 Reload)"
   category: "Karp/Persona"

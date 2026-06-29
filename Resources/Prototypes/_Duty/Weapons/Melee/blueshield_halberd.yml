@@ -52,6 +52,7 @@
   - type: UseDelay
     delay: 1
   - type: HalberdCharge
+  - type: MoraleFlag
 
 
 # ── Кейс с алебардой (для ваучера ОСЩ) ──────────────────────

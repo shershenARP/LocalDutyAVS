@@ -104,4 +104,18 @@ public sealed class DutyCCVars
     /// </summary>
     public static readonly CVarDef<float> HealthPhrasesWhisperMax =
         CVarDef.Create("duty.health_phrases_whisper_max", 300f, CVar.ARCHIVE | CVar.REPLICATED);
+
+    // ── Контузия (оглушение от выстрелов и взрывов) ───────────────────────────
+
+    /// <summary>
+    /// Включена ли система контузии (серверная логика: набор шкалы, импульсы, алерт).
+    /// </summary>
+    public static readonly CVarDef<bool> ConcussionEnabled =
+        CVarDef.Create("duty.concussion_enabled", true, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Включены ли визуально-звуковые эффекты контузии (затемнение экрана, звон в ушах).
+    /// </summary>
+    public static readonly CVarDef<bool> ConcussionEffectsEnabled =
+        CVarDef.Create("duty.concussion_effects_enabled", true, CVar.ARCHIVE | CVar.CLIENTONLY);
 }
