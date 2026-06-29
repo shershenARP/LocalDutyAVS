@@ -100,7 +100,7 @@
   name: магазин АШ-12 (20)
   description: Магазин 12,7x55 для АШ-12. Вместимость 20.
   parent: BaseItem
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   components:
   - type: Tag
     tags:

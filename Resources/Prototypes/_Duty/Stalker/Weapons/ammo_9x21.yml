@@ -119,7 +119,7 @@
   name: магазин СР-2М "Вереск" 9х21 (20)
   description: Магазин 9x21 мм для СР-2М. Вместимость 20.
   parent: BaseItem
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   components:
   - type: Tag
     tags:

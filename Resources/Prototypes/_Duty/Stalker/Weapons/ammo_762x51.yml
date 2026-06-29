@@ -117,7 +117,7 @@
 - type: entity
   id: Base751Mag10
   name: magazine 7.62x51 (10)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   description: Магазин 7.62x51 для винтовок НАТО. Вместимость 10.
   parent: BaseItem
   components:
@@ -155,7 +155,7 @@
 - type: entity
   id: Magazine751x30
   name: magazine 7.62x51 (30)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   description: Магазин 7.62x51 для винтовок НАТО. Вместимость 30.
   parent: Base751Mag10
   components:

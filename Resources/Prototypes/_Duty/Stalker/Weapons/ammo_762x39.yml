@@ -93,7 +93,7 @@
 - type: entity
   id: Base739Mag10
   name: magazine 7.62x39 (10)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   description: Магазин 7.62x39 для АК. Вместимость 10.
   parent: BaseItem
   components:
@@ -131,7 +131,7 @@
 - type: entity
   id: Magazine739x30
   name: magazine 7.62x39 (30)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   description: Магазин 7.62x39 для АК. Вместимость 30.
   parent: Base739Mag10
   components:

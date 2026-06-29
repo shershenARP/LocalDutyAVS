@@ -161,7 +161,7 @@
 - type: entity
   id: Base556Mag10
   name: magazine 5.56x45 (10)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   description: Магазин 5.56x45 для штурмовых винтовок. Вместимость 10.
   parent: BaseItem
   components:
@@ -199,7 +199,7 @@
 - type: entity
   id: Magazine556x30
   name: magazine 5.56x45 (30)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   description: Магазин 5.56x45 для штурмовых винтовок. Вместимость 30.
   parent: Base556Mag10
   components:

@@ -119,7 +119,7 @@
   name: магазин ППШ (35)
   description: Магазин для ППШ-41. Вместимость 35.
   parent: BaseItem
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   components:
   - type: Tag
     tags:

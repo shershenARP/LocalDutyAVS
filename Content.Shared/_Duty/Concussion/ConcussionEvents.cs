@@ -9,6 +9,9 @@ public enum ConcussionImpulseType : byte
 
     /// <summary>Резкое затемнение с долгим fade-out от взрыва.</summary>
     Blast,
+
+    /// <summary>Головокружение — качание/мутность экрана (~3с) от крупного/близкого взрыва.</summary>
+    Dizzy,
 }
 
 /// <summary>

@@ -138,7 +138,7 @@
 - type: entity
   id: STSpeedLoader45ACP
   name: спидлоадер (.45 ACP)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   parent: BaseItem
   components:
   - type: Tag
@@ -173,7 +173,7 @@
   name: магазин ПП Томпсона (40)
   description: Магазин для "Томми гана". Вместимость 40.
   parent: BaseItem
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   components:
   - type: Tag
     tags:

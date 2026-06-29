@@ -138,7 +138,7 @@
   name: магазин 7,62x54 (5)
   description: Магазин 7,62x54 для винтовок. Вместимость 5.
   parent: BaseItem
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   components:
   - type: Tag
     tags:

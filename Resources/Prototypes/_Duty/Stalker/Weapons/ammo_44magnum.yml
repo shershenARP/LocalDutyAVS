@@ -75,7 +75,7 @@
 - type: entity
   id: BaseSpeedLoaderRemingtonMagnum
   name: спидлоадер (.44 remington magnum)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   parent: BaseItem
   abstract: true
   components:
@@ -129,7 +129,7 @@
 - type: entity
   parent: SpeedLoaderRemingtonMagnum
   id: SpeedLoaderRemingtonMagnumEmpty
-  suffix: "Duty, Stalker, Пустой"
+  suffix: "Магазин, Stalker, Пустой"
   components:
   - type: BallisticAmmoProvider
     proto: null

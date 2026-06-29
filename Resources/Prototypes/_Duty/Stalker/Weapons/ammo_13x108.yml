@@ -96,7 +96,7 @@
   name: магазин 12,7x108 (10)
   description: Магазин 12,7x108 для ОСВ-96. Вместимость 10.
   parent: BaseItem
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   components:
   - type: Tag
     tags:

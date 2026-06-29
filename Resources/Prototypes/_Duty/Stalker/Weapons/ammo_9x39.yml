@@ -171,7 +171,7 @@
 - type: entity
   id: Base939Mag10
   name: magazine 9x39 (10)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   description: Магазин 9x39 для автоматов и специальных снайперских винтовок. Вместимость 10.
   parent: BaseItem
   components:
@@ -209,7 +209,7 @@
 - type: entity
   id: Magazine939x20
   name: magazine 9x39 (20)
-  suffix: "Duty, Stalker"
+  suffix: "Магазин, Stalker"
   description: Магазин 9x39, повышенная ёмкость. Вместимость 20.
   parent: Base939Mag10
   components:
